@@ -154,7 +154,7 @@ namespace SAPTCO.BILL.Models
             {
                 body = reader.ReadToEnd();
             }
-            
+
             body = body.Replace("{billTitleAr}", model.TitleAr);
             body = body.Replace("{billTitleEn}", model.TitleEn);
             body = body.Replace("{billNumber}", model.InvoiceId.ToString());
@@ -162,6 +162,27 @@ namespace SAPTCO.BILL.Models
             body = body.Replace("{billCreateTime}", model.CreatedTime);
             body = body.Replace("{tbody}", trData);
             body = body.Replace("{tSection}", trSecion);
+            body = body.Replace("{withoutVatTotal}", model.TotalBeforeVat.ToString());
+            body = body.Replace("{vatValue}", model.VatAmount.ToString());
+            body = body.Replace("{WithVatTotal}", model.TotalIncludingVat.ToString());
+            body = body.Replace("{QrCode}", ConfigurationManager.AppSettings["BARCODE_URL"].ToString());
+
+
+            return body;
+        }
+
+        public static string CreateHyperPayNoteCreditNoteTicket(string trData, HyperPayInvoice model)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/Files/HyperPayInvoice.html")))
+            {
+                body = reader.ReadToEnd();
+            }
+
+            body = body.Replace("{billNumber}", model.InvoiceId.ToString());
+            body = body.Replace("{billCreateAt}", model.CreatedAt);
+            body = body.Replace("{billCreateTime}", model.CreatedTime);
+            body = body.Replace("{tbody}", trData);
             body = body.Replace("{withoutVatTotal}", model.TotalBeforeVat.ToString());
             body = body.Replace("{vatValue}", model.VatAmount.ToString());
             body = body.Replace("{WithVatTotal}", model.TotalIncludingVat.ToString());

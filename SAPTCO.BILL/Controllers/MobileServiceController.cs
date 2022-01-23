@@ -618,6 +618,7 @@ namespace SAPTCO.BILL.Controllers
         {
             string billResponse = "";
             string invoice = "";
+            string ticket = "";
             ResponseMessageVM response = new ResponseMessageVM();
             HyperPayInvoice hyperPayInvoice = new HyperPayInvoice();
             HyperPayInvoice hyperPayTicket = new HyperPayInvoice();
@@ -633,6 +634,10 @@ namespace SAPTCO.BILL.Controllers
                         hyperPayTicket = _db.Database.SqlQuery<HyperPayInvoice>(query).FirstOrDefault();
                         no_tickets = hyperPayTicket.Quantity;
                         string trRows = DrawTicketDetails(hyperPayTicket);
+                        ticket = Traversehtml.CreateHyperPayNoteCreditNoteTicket(trRows, hyperPayTicket);
+
+
+
                     }
                     #endregion
 
