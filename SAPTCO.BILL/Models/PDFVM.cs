@@ -174,7 +174,7 @@ namespace SAPTCO.BILL.Models
         public static string CreateHyperPayNoteCreditNoteTicket(string trData, HyperPayInvoice model)
         {
             string body = string.Empty;
-            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/Files/HyperPayInvoice.html")))
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/Files/Ticket.html")))
             {
                 body = reader.ReadToEnd();
             }

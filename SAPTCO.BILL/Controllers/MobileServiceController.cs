@@ -621,7 +621,7 @@ namespace SAPTCO.BILL.Controllers
             string ticket = "";
             ResponseMessageVM response = new ResponseMessageVM();
             HyperPayInvoice hyperPayInvoice = new HyperPayInvoice();
-            HyperPayInvoice hyperPayTicket = new HyperPayInvoice();
+            List<HyperPayInvoice> hyperPayTickets = new List<HyperPayInvoice>();
             List<string> tickets = new List<string>();
             int no_tickets = 0;
             using (SaptcoContext _db = new SaptcoContext())
@@ -631,12 +631,97 @@ namespace SAPTCO.BILL.Controllers
                     #region Ticket Step
                     {
                         string query = $"EXECUTE SP_PRINTHYPERPAYTICKET {id}";
-                        hyperPayTicket = _db.Database.SqlQuery<HyperPayInvoice>(query).FirstOrDefault();
-                        no_tickets = hyperPayTicket.Quantity;
-                        string trRows = DrawTicketDetails(hyperPayTicket);
-                        ticket = Traversehtml.CreateHyperPayNoteCreditNoteTicket(trRows, hyperPayTicket);
+                        hyperPayTickets = _db.Database.SqlQuery<HyperPayInvoice>(query).ToList();
+                        no_tickets = hyperPayTickets.Count;
+                        string trRows = DrawTicketDetails(hyperPayTickets.FirstOrDefault());
+
+                        #region Create Ticket 
+
+                        foreach (var hyperPayTicket in hyperPayTickets)
+                        {
+
+                            ticket = Traversehtml.CreateHyperPayNoteCreditNoteTicket(trRows, hyperPayTicket);
+
+                            string qrDate = hyperPayTicket.CreatedAt;
+                            string qrDateTime = string.Concat(qrDate, "T", hyperPayTicket.CreatedTime);
+                            string sellerName = Helpers.GetTLV(1, "Saudi Public Transport Company");
+                            string VATRegistrationNumber = Helpers.GetTLV(2, "300004441600003");
+                            string timeStamp = Helpers.GetTLV(3, qrDateTime);
+                            string invoiceTotalWithVAT = Helpers.GetTLV(4, hyperPayTicket.TotalIncludingVat.ToString());
+                            string VATTotal = Helpers.GetTLV(5, hyperPayTicket.VatAmount.ToString());
+
+                            string qrHexa = string.Concat(sellerName, VATRegistrationNumber, timeStamp, invoiceTotalWithVAT, VATTotal);
+                            string TLVBase64 = Helpers.FromHexaToBase64(qrHexa);
+
+                            Traversehtml.GenerateQRCode(TLVBase64);
+
+                            string pdf_page_size = "A4";
+                            PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize),
+                            pdf_page_size, true);
 
 
+
+                            string pdf_orientation = "Portrait";
+                            PdfPageOrientation pdfOrientation =
+                            (PdfPageOrientation)Enum.Parse(typeof(PdfPageOrientation), pdf_orientation, true);
+
+                            int webPageWidth = 1024;
+                            int webPageHeight = 0;
+
+
+
+                            // instantiate a html to pdf converter object
+                            HtmlToPdf converter = new HtmlToPdf();
+
+
+
+                            // set converter options
+                            converter.Options.PdfPageSize = pageSize;
+                            converter.Options.PdfPageOrientation = pdfOrientation;
+                            converter.Options.WebPageWidth = webPageWidth;
+                            converter.Options.WebPageHeight = webPageHeight;
+
+
+
+                            // create a new pdf document converting an url
+                            PdfDocument doc = converter.ConvertHtmlString(ticket, "");
+
+
+                            // save pdf document
+
+                            byte[] bytes = doc.Save();
+
+
+
+                            string invoiceQueryParam = HttpUtility.UrlEncode(Traversehtml.Encrypt(hyperPayTicket.InvoiceId.ToString()));
+                            billResponse = $"{ConfigurationManager.AppSettings["BASE_URL"]}/DownloadTicket.aspx?invId={invoiceQueryParam}";
+
+
+                            // save in database
+
+                            using (SqlConnection _cn = new SqlConnection(ConfigurationManager.ConnectionStrings["billConstr"].ToString()))
+                            {
+                                using (SqlCommand _cmd = new SqlCommand("SP_PAYMMENT_TICKET", _cn))
+                                {
+                                    _cmd.CommandType = CommandType.StoredProcedure;
+                                    _cn.Open();
+                                    _cmd.Parameters.Add("@INVID", SqlDbType.Int).Value = id;
+                                    _cmd.Parameters.Add("@DOWNLOADURL", SqlDbType.NVarChar).Value = billResponse;
+                                    _cmd.Parameters.Add("@TICKETID", SqlDbType.Int).Value = hyperPayTicket.InvoiceId;
+                                    _cmd.Parameters.Add("@BILL", SqlDbType.VarBinary).Value = bytes;
+                                    var rdr = _cmd.ExecuteReader();
+                                    while (rdr.Read())
+                                    {
+                                        response.code = Convert.ToInt32(rdr[0]);
+                                        response.message = rdr[1].ToString();
+                                    }
+                                    _cn.Close();
+                                }
+                            }
+                        }
+
+
+                        #endregion
 
                     }
                     #endregion
@@ -750,7 +835,7 @@ namespace SAPTCO.BILL.Controllers
                     }
                     #endregion
 
-                  
+
                 }
                 catch (Exception ex)
                 {
