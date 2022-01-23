@@ -1,0 +1,109 @@
+﻿2021-12-11 13:08:46,670- Login
+2021-12-11 13:08:49,970- Load Services
+2021-12-11 13:08:49,971- Load trips
+2021-12-11 13:08:49,971- Load paymint
+2021-12-11 13:08:49,971- Load Terminal
+2021-12-11 13:08:53,724- Load trips
+2021-12-11 13:09:49,375- Load trips
+2021-12-11 13:10:21,010- Load trips
+2021-12-11 13:12:37,622- Load trips
+2021-12-11 13:13:38,205- Load trips
+2021-12-11 13:13:48,304- Load trips
+2021-12-11 13:14:44,773- Load trips
+2021-12-11 13:14:44,775- Load Terminal
+2021-12-11 13:14:49,492- Load Times
+2021-12-11 13:14:54,865- Load Times
+2021-12-11 13:15:01,114- Load TimeTrip
+2021-12-11 13:16:00,770- Load trips
+2021-12-11 13:16:00,772- Load Terminal
+2021-12-11 13:16:15,762- Load Times
+2021-12-11 13:17:12,896- Load trips
+2021-12-11 13:17:12,897- Load Terminal
+2021-12-11 13:17:15,318- Load Times
+2021-12-11 13:17:15,331- Load TimeTrip
+2021-12-11 13:17:23,874- Load TimeTrip
+2021-12-11 13:27:29,852- Load trips
+2021-12-11 13:27:29,853- Load Terminal
+2021-12-11 13:27:49,018- Load trips
+2021-12-11 13:27:49,019- Load Terminal
+2021-12-11 13:29:30,214- Load trips
+2021-12-11 13:29:30,216- Load Terminal
+2021-12-11 13:29:55,488- Load trips
+2021-12-11 13:29:55,491- Load Terminal
+2021-12-11 13:41:54,707- Login
+2021-12-11 13:41:58,864- Load trips
+2021-12-11 13:41:58,864- Load Services
+2021-12-11 13:41:58,866- Load paymint
+2021-12-11 13:41:58,868- Load Terminal
+2021-12-11 13:42:02,825- Load trips
+2021-12-11 13:42:02,825- Load Terminal
+2021-12-11 13:42:10,530- Load Times
+2021-12-11 13:42:10,542- Load TimeTrip
+2021-12-11 13:42:12,874- Load TimeTrip
+2021-12-11 13:42:14,173- Load report
+2021-12-11 13:42:14,340- Incorrect syntax near '-'.
+2021-12-11 13:42:48,359- Load Terminal
+2021-12-11 13:42:48,359- Load trips
+2021-12-11 13:42:54,745- Load Times
+2021-12-11 13:42:54,755- Load TimeTrip
+2021-12-11 13:42:56,971- Load TimeTrip
+2021-12-11 13:43:53,749- Load report
+2021-12-11 13:44:24,272- Incorrect syntax near '-'.
+2021-12-11 13:48:18,174- Login
+2021-12-11 13:48:22,168- Load Services
+2021-12-11 13:48:22,173- Load Terminal
+2021-12-11 13:48:22,173- Load paymint
+2021-12-11 13:48:22,173- Load trips
+2021-12-11 13:48:46,372- Load trips
+2021-12-11 13:48:46,374- Load Terminal
+2021-12-11 13:48:52,110- Load Times
+2021-12-11 13:48:52,129- Load TimeTrip
+2021-12-11 13:48:55,491- Load TimeTrip
+2021-12-11 13:48:56,880- Load report
+2021-12-11 13:53:12,682- Login
+2021-12-11 13:53:17,513- Load Services
+2021-12-11 13:53:17,514- Load trips
+2021-12-11 13:53:17,515- Load paymint
+2021-12-11 13:53:17,517- Load Terminal
+2021-12-11 13:54:14,841- Load trips
+2021-12-11 13:54:14,843- Load Terminal
+2021-12-11 13:54:45,431- Load Times
+2021-12-11 13:54:45,445- Load TimeTrip
+2021-12-11 13:54:47,138- Load TimeTrip
+2021-12-11 13:54:48,085- Load report
+2021-12-11 13:58:37,614- Incorrect syntax near '/'.
+2021-12-11 13:58:40,483- Load report
+2021-12-11 14:04:22,261- Login
+2021-12-11 14:04:26,525- Load Services
+2021-12-11 14:04:26,526- Load trips
+2021-12-11 14:04:26,526- Load paymint
+2021-12-11 14:04:26,527- Load Terminal
+2021-12-11 14:04:34,181- Load trips
+2021-12-11 14:04:34,181- Load Terminal
+2021-12-11 14:04:41,327- Load Times
+2021-12-11 14:04:41,339- Load TimeTrip
+2021-12-11 14:04:43,687- Load TimeTrip
+2021-12-11 14:04:44,661- Load report
+2021-12-11 14:06:06,159- Incorrect syntax near '/'.
+2021-12-11 14:06:09,077- Load report
+2021-12-11 14:10:51,548- Login
+2021-12-11 14:10:55,701- Load Services
+2021-12-11 14:10:55,701- Load trips
+2021-12-11 14:10:55,702- Load paymint
+2021-12-11 14:10:55,702- Load Terminal
+2021-12-11 14:10:57,932- Load trips
+2021-12-11 14:10:57,934- Load Terminal
+2021-12-11 14:11:02,669- Load Times
+2021-12-11 14:11:02,682- Load TimeTrip
+2021-12-11 14:11:04,324- Load TimeTrip
+2021-12-11 14:11:05,304- Load report
+2021-12-11 16:49:34,434- Login
+2021-12-11 16:49:39,450- Load Services
+2021-12-11 16:49:39,451- Load trips
+2021-12-11 16:49:39,451- Load paymint
+2021-12-11 16:49:39,452- Load Terminal
+2021-12-11 16:49:41,944- Load Terminal
+2021-12-11 16:49:41,944- Load trips
+2021-12-11 16:49:47,526- Load Times
+2021-12-11 16:49:47,544- Load TimeTrip
+2021-12-11 16:49:49,836- Load report

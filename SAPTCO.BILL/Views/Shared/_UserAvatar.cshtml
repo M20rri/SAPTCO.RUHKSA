@@ -1,0 +1,27 @@
+﻿<ul class="navbar-nav mb-2 mb-lg-0">
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            مرحباً <strong id="current"></strong>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="~/Saptco/Index" id="logoutBtn1"> الرئيسيه</a></li>
+            <li><a class="dropdown-item" href="~/Saptco/Report" id="logoutBtn2">التقارير </a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)" id="logoutBtn">تسجيل الخروج</a></li>
+
+        </ul>
+    </li>
+
+</ul>
+
+<script>
+    $(function () {
+        $('#current').text(USER.username);
+
+        $('#logoutBtn').on('click', function () {
+            sessionStorage.removeItem('currentUser');
+            location.reload();
+        });
+
+    })
+</script>

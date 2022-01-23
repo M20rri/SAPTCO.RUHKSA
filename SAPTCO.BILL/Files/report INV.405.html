@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Credit note</title>
+</head>
+
+<body>
+    <div style="width: 790px; padding: 30px 45px; background: #ffffff; font-family: Arial, Helvetica, sans-serif; direction: rtl;">
+        <table cellspacing="0" cellpadding="0" style="width: 100%; margin-bottom: 10px;">
+            <tbody>
+                <tr>
+                    <td style="width: 33%; text-align: right;">
+                        <img src="https://saptco.com.sa/Images/saptco_logo_gold.aspx?width=200&height=50&ext=.png" />
+                    </td>
+
+                    <td style="width: 66%; text-align: right;">
+                        <h3 style="margin-bottom: 5px; padding-right: 80px; font-size: 1.5em;">فاتورة ضريبية مبسطة</h3>
+                        <h3 style="margin-top: 5px; padding-right: 75px; font-size: 1.2em;">Simplified Tax Invoice</h3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table cellspacing="10" cellpadding="0" style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td style="width: 50%; text-align: center; border: 2px solid #cabe97; border-radius: 15px;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 35%; text-align: right; font-weight: bold; padding-bottom: 5px; font-size: 1.1em;">رقم الفاتورة</td>
+                                    <td rowspan="2" style="text-align: right; padding-bottom: 5px; font-size: 1.2em;">{billNumber}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 35%; text-align: right; font-weight: bold;">Bill Number</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                    <td style="width: 50%; text-align: center; border: 2px solid #cabe97; border-radius: 15px;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 35%; text-align: right; font-weight: bold; padding-bottom: 5px; font-size: 1.1em;">اسم المورد</td>
+                                    <td style="text-align: right; padding-bottom: 5px;">الشركة السعودية للنقل الجماعي (سابتكو)</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 35%; text-align: right; font-weight: bold;">Supplier Name</td>
+                                    <td style="text-align: right;">Saudi Public Transport Company (SAPTCO)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 50%; text-align: center; border: 2px solid #cabe97; border-radius: 15px;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 45%; text-align: right; font-weight: bold; padding-bottom: 5px; font-size: 1.1em;">رقم الحجز</td>
+                                    <td rowspan="2" style="text-align: right; padding-bottom: 5px; font-size: 1.2em;">{reserveNumber}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%; text-align: right; font-weight: bold;">Reservation Number</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                    <td rowspan="3" style="width: 50%; text-align: center; border: 2px solid #cabe97; border-radius: 15px; vertical-align: top;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 35%; text-align: right; font-weight: bold; padding-bottom: 5px; font-size: 1.1em; vertical-align: top">عنوان المورد</td>
+                                    <td style="text-align: right; padding-bottom: 5px; line-height: 1.8;">
+                                        ٥ عمرو بن عبيد - حي النخيل <br />
+                                        وحدة رقم ١  <br />
+                                        ٤٢٦٢-١٢٣٨٣ الرياض <br />
+                                        المملكة العربية السعودية
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 35%; text-align: right; font-weight: bold; vertical-align:top">Supplier Address</td>
+                                    <td style="text-align: right; line-height: 1.8; vertical-align: top ">
+                                        7995 Amr Ibn Ubaid - Al Nakheel <br />
+                                        Unit No 1 <br />
+                                        Riyadh 12838 - 4262<br />
+                                        Kingdom of Saudi Arabia
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 50%; text-align: center; border: 2px solid #cabe97; border-radius: 15px;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 45%; text-align: right; font-weight: bold; padding-bottom: 5px; font-size: 1.1em;">تاريخ اصدار الفاتورة</td>
+                                    <td style="text-align: right; padding-bottom: 5px; font-size: 1.2em;">{billCreateAt}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%; text-align: right; font-weight: bold; font-size: 1.1em;">وقت انشاء الفاتورة</td>
+                                    <td style="text-align: right; padding-bottom: 5px; font-size: 1.2em;">{billCreateTime}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+
+                    <td style="width: 50%; text-align: center; border: 2px solid #cabe97; border-radius: 15px;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 55%; text-align: right; font-weight: bold; padding-bottom: 5px; font-size: 1.1em;">الرقم الضريبي للمورد</td>
+                                    <td rowspan="2" style="text-align: right; padding-bottom: 5px; font-size: 1.2em;">{vATNumber}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 55%; text-align: right; font-weight: bold;">VAT Number</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+        <table style="width: 97%; text-align: center; margin: 30px auto; border-collapse: collapse;" cellspacing="1" cellpadding="1">
+            <thead style="background: #a57c35; color: #ffffff; font-weight: 200;">
+                <tr>
+                    <th style="padding: 10px;">المجموع (شامل القيمة المضافة)</th>
+                    <th>الكمية</th>
+                    <th>نسبة الضريبة</th>
+                    <th>قيمة الضريبة</th>
+                    <th>سعر الوحدة</th>
+                    <th>البيان</th>
+                </tr>
+                <tr>
+                    <th style="padding: 10px;">Item Subtotal - Including</th>
+                    <th>Quantity</th>
+                    <th>VAT percentage</th>
+                    <th>VAT value</th>
+                    <th>Unit price</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #cccccc; padding: 8px; direction: ltr;">{WithVatTotal}</td>
+                    <td style="border: 1px solid #cccccc;">{quantity}</td>
+                    <td style="border: 1px solid #cccccc;">{vatPercentage}</td>
+                    <td style="border: 1px solid #cccccc;">{vatValue}</td>
+                    <td style="border: 1px solid #cccccc; direction: ltr;">{unitPrice}</td>
+                    <td style="border: 1px solid #cccccc;">{detail} - تذكرة</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <table cellspacing="10" cellpadding="0" style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td rowspan="3" style="width: 33%; text-align: center;">
+                        <img src="{QrCode}" width="150px" />
+                        <img src="{barCode}" width="150px" />
+
+                    </td>
+
+                    <td style="width: 66%; text-align: center; border: 2px solid #cabe97; border-radius: 15px;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 33%; text-align: right; font-weight: bold; font-size: 1.1em; direction: ltr;">{withoutVatTotal}</td>
+                                    <td style="width: 33%; text-align: center; font-weight: bold; font-size: 1.2em;">إجمالي الفاتورة قبل الضريبة</td>
+                                    <td style="width: 33%; text-align: left; font-weight: bold; font-size: 1.2em;">Total Invoice Before Tax</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 50%; text-align: center; border: 2px solid #cabe97; border-radius: 15px;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 33%; text-align: right; font-weight: bold; font-size: 1.1em; direction: ltr;">{taxValue}</td>
+                                    <td style="width: 33%; text-align: center; font-weight: bold; font-size: 1.2em;">ضريبة القيمة المضافة</td>
+                                    <td style="width: 33%; text-align: left; font-weight: bold; font-size: 1.2em; direction: ltr;">Total VAT (% 15)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 50%; text-align: center; border: 2px solid #cabe97; border-radius: 15px;">
+                        <table style="width: 100%; font-size: 0.9em; padding: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 33%; text-align: right; font-weight: bold; font-size: 1.1em; direction: ltr;">{WithVatTotal}</td>
+                                    <td style="width: 33%; text-align: center; font-weight: bold; font-size: 1.2em;">اجمالي الفاتورة شاملة الضريبة</td>
+                                    <td style="width: 33%; text-align: left; font-weight: bold; font-size: 1.2em;">Total Amount</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <table style="width: 100%; text-align: center; border-collapse: collapse; font-size: 0.95em;  margin-bottom: 1em;"
+               cellspacing="1" cellpadding="1">
+            <thead style="background: #a57c35; color: #ffffff; font-weight: 200;">
+                <tr>
+                    <th colspan="2" style="padding: 5px; border-left:1px solid #ffffff; width: 33%;">بيانات العميل</th>
+                    <th style="padding: 5px; border-left:1px solid #ffffff;">المسار</th>
+                    <th style="padding: 5px; border-left:1px solid #ffffff;">نقطة الإنطلاق</th>
+                    <th style="padding: 5px; border-left:1px solid #ffffff;">الفندق</th>
+                    <th style="padding: 5px; border-left:1px solid #ffffff;">وقت الرحلة</th>
+
+
+                </tr>
+                <tr>
+                    <th colspan="2" style="padding: 5px; border-left:1px solid #ffffff; font-size: 0.8em; ">Customer Data</th>
+                    <th style="padding: 5px; border-left:1px solid #ffffff; font-size: 0.8em;">Line</th>
+                    <th style="padding: 5px; border-left:1px solid #ffffff; font-size: 0.8em;">Starting Point</th>
+                    <th style="padding: 5px; border-left:1px solid #ffffff; font-size: 0.8em;">Hotel</th>
+                    <th style="padding: 5px; border-left:1px solid #ffffff; font-size: 0.8em;">Trip Time</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #cccccc; padding: 8px; background: #a57c35; color: #ffffff;  width: 10%;">الإسم <br /> Name</td>
+                    <td style="border: 1px solid #cccccc;">محمد محمد</td>
+                    <td rowspan="2" style="border: 1px solid #cccccc;">1</td>
+                    <td style="border: 1px solid #cccccc;">صالة 1</td>
+                    <td style="border: 1px solid #cccccc;">فندق برج رافال</td>
+                    <td rowspan="2" style="border: 1px solid #cccccc;">14:00</td>
+
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cccccc; padding: 8px; background: #a57c35; color: #ffffff;">هاتف <br /> Telephone </td>
+                    <td style="border: 1px solid #cccccc;">00966550550555</td>
+
+                    <td style="border: 1px solid #cccccc;">Terminal 1</td>
+                    <td style="border: 1px solid #cccccc;">Burj Rafal Riyadh</td>
+
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <table style="width: 100%;  margin-bottom: 2em;" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td style="width: 33%;"></td>
+                    <td style="width: 33%;"><img src="barcode.png" alt="barcode" /></td>
+                    <td style="width: 33%;"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

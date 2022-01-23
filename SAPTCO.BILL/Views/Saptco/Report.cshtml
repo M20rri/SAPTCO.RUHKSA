@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+}
+    <div class="col-md-4">
+        <form class="p-4">
+            <div class="mb-3" style="display:none">
+                <label for="loginPassword" class="form-label h5">اختر الرحله</label>
+                <select class="form-select form-select-lg mb-3 TRIP" TRIPValidator id="tripsDrop" onchange="getreport();" required>
+                    <option value="0">اختر ...</option>
+                </select>
+                <div id="TRIPValidator" class="invalid-feedback TRIPValidator">
+                    اختار الرحله
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label h5">اختر التاريخ</label>
+                <input type="text" class="form-control Date" DateValidator id="DateDrop" required readonly/>
+                <div id="DateValidator" class="invalid-feedback dropValidate">
+                    اختار التاريخ
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label h5">اختر نقطة الانطلاق </label>
+                <select class="form-select form-select-lg mb-3 Terminal" TerminalValidator onchange="getTime();" id="TerminalDrop" required>
+                    <option value="0">اختر ...</option>
+                </select>
+                <div id="TerminalValidator" class="invalid-feedback dropValidate">
+                    اختار نقطة الانطلاق
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label h5">اختر وقت الرحله </label>
+                <select class="form-select form-select-lg mb-3 Time" TimeValidator id="TimeDrop" onchange="getTripDrop();" required>
+                    <option value="0">اختر ...</option>
+                </select>
+                <div id="TimeValidator" class="invalid-feedback dropValidate">
+                    اختار وقت الرحله
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary mt-2" onclick="getreport()">بحث</button>
+            <img src="~/assets/loading.gif" class="loader" id="loader" style="display:none">
+        </form>
+        <div class="mb-3" id="msgDiv" style="display:none">
+            <div id="msg" class="alert alert-success">
+                تم الاجراء بنجاح
+            </div>
+        </div>
+
+
+    </div>
+
+<div class="row d-flex justify-content-center">
+    <div class="col-lg-6">
+        <table class="table table-striped shadow">
+
+            <tbody id="items">
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="~/Scripts/Report.js"></script>

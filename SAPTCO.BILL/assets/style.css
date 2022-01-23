@@ -1,0 +1,71 @@
+:root {
+    --bs-primary: #a57c35 !important;
+    --bs-secondary: #837767 !important;
+    --bs-tertiary: #41695b !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+.loader {
+    width: 48px;
+    margin-top: 10px;
+}
+
+body, h1, h2, h3, h4, h5, h6, a, p, span, input {
+    font-family: 'Tajawal', sans-serif;
+}
+.dropValidate {
+    margin-top: -8px;
+}
+
+.bg-primary {
+    background: #a57c35 !important;
+}
+
+.bg-secondary {
+    background: #837767 !important; 
+}
+
+.btn-primary {
+    background: #a57c35 !important;
+    border-color: #a57c35 !important;
+}
+
+.btn-primary:hover {
+    background: #835f21 !important;
+    border-color: #835f21 !important;
+}
+
+.text-primary {
+    color: #a57c35 !important; 
+}
+
+.form-check-input:checked {
+    background-color: #a57c35;
+    border-color: #a57c35;
+} 
+
+.dropdown-item.active, .dropdown-item:active {     
+    text-decoration: none;
+    background-color: #a57c35;
+}
+
+/* RTL styles */
+#checkOutPanel div, #navbarDropdown {
+    direction: rtl;
+}
+.form-check .form-check-input {
+    float: right;
+    margin-left: inherit;
+
+    margin-left: .5em;
+}

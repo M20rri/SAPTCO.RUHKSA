@@ -1,0 +1,153 @@
+﻿2021-12-08 11:06:13,022- Login
+2021-12-08 11:06:19,958- Load Services
+2021-12-08 11:06:19,958- Load paymint
+2021-12-08 11:06:19,960- Load trips
+2021-12-08 11:06:34,236- Load Hotels
+2021-12-08 11:54:51,339- Login
+2021-12-08 11:54:55,808- Load Services
+2021-12-08 11:54:55,810- Load trips
+2021-12-08 11:54:55,813- Load paymint
+2021-12-08 11:55:17,504- Load Services
+2021-12-08 11:55:17,504- Load trips
+2021-12-08 11:55:17,506- Load paymint
+2021-12-08 11:55:17,508- Load Terminal
+2021-12-08 11:55:33,514- Load Hotels
+2021-12-08 11:56:05,761- Load Services
+2021-12-08 11:56:05,762- Load trips
+2021-12-08 11:56:05,763- Load paymint
+2021-12-08 11:56:10,772- Load Terminal
+2021-12-08 11:57:19,130- Load Services
+2021-12-08 11:57:19,139- Load trips
+2021-12-08 11:57:19,140- Load paymint
+2021-12-08 11:57:20,210- Load Terminal
+2021-12-08 11:57:25,647- Load Services
+2021-12-08 11:57:25,651- Load trips
+2021-12-08 11:57:25,653- Load Terminal
+2021-12-08 11:57:25,654- Load paymint
+2021-12-08 11:58:51,841- Load Services
+2021-12-08 11:58:51,843- Load Terminal
+2021-12-08 11:58:51,843- Load paymint
+2021-12-08 11:58:51,843- Load trips
+2021-12-08 11:59:04,791- Load Services
+2021-12-08 11:59:04,791- Load paymint
+2021-12-08 11:59:04,791- Load trips
+2021-12-08 11:59:10,215- Load Terminal
+2021-12-08 11:59:40,897- Load trips
+2021-12-08 11:59:40,897- Load Services
+2021-12-08 11:59:40,900- Load paymint
+2021-12-08 11:59:42,795- Load Terminal
+2021-12-08 12:15:51,107- Login
+2021-12-08 12:15:55,567- Load Services
+2021-12-08 12:15:55,567- Load trips
+2021-12-08 12:15:55,568- Load paymint
+2021-12-08 12:15:55,570- Load Terminal
+2021-12-08 12:16:18,004- Load Services
+2021-12-08 12:16:18,004- Load trips
+2021-12-08 12:16:18,004- Load paymint
+2021-12-08 12:16:18,705- Load Terminal
+2021-12-08 12:18:08,904- Load Services
+2021-12-08 12:18:08,908- Load paymint
+2021-12-08 12:18:08,909- Load trips
+2021-12-08 12:18:08,910- Load Terminal
+2021-12-08 12:19:19,100- Load Services
+2021-12-08 12:19:19,101- Load trips
+2021-12-08 12:19:19,102- Load paymint
+2021-12-08 12:19:19,103- Load Terminal
+2021-12-08 12:19:30,248- Load Times
+2021-12-08 12:22:16,146- Login
+2021-12-08 12:22:19,720- Load trips
+2021-12-08 12:22:19,720- Load Services
+2021-12-08 12:22:19,720- Load paymint
+2021-12-08 12:22:19,724- Load Terminal
+2021-12-08 12:22:24,564- Load Times
+2021-12-08 12:22:24,704- The specified cast from a materialized 'System.TimeSpan' type to the 'System.String' type is not valid.
+2021-12-08 12:22:37,215- Load trips
+2021-12-08 12:22:37,215- Load Services
+2021-12-08 12:22:37,219- Load paymint
+2021-12-08 12:22:37,219- Load Terminal
+2021-12-08 12:22:40,951- Load Times
+2021-12-08 12:22:41,020- The specified cast from a materialized 'System.TimeSpan' type to the 'System.String' type is not valid.
+2021-12-08 12:23:19,168- Load Times
+2021-12-08 12:23:19,243- The specified cast from a materialized 'System.TimeSpan' type to the 'System.String' type is not valid.
+2021-12-08 12:24:13,397- Load Times
+2021-12-08 12:26:21,451- The specified cast from a materialized 'System.TimeSpan' type to the 'System.String' type is not valid.
+2021-12-08 12:26:25,359- Load Services
+2021-12-08 12:26:25,361- Load trips
+2021-12-08 12:26:25,362- Load paymint
+2021-12-08 12:26:25,365- Load Terminal
+2021-12-08 12:26:31,398- Load Times
+2021-12-08 12:29:37,767- Load Services
+2021-12-08 12:29:37,768- Load trips
+2021-12-08 12:29:37,772- Load paymint
+2021-12-08 12:29:37,773- Load Terminal
+2021-12-08 12:29:42,573- Load Times
+2021-12-08 12:42:05,250- Login
+2021-12-08 12:42:09,645- Load Services
+2021-12-08 12:42:09,646- Load trips
+2021-12-08 12:42:09,649- Load paymint
+2021-12-08 12:42:09,650- Load Terminal
+2021-12-08 12:42:30,503- Load Hotels
+2021-12-08 12:42:39,092- Load Times
+2021-12-08 12:42:49,835- Load Transact
+2021-12-08 12:42:50,010- Procedure or function 'SP_REGTRANS' expects parameter '@idTerminal', which was not supplied.
+2021-12-08 12:47:41,879- Login
+2021-12-08 12:47:46,348- Load Services
+2021-12-08 12:47:46,348- Load trips
+2021-12-08 12:47:46,349- Load paymint
+2021-12-08 12:47:46,353- Load Terminal
+2021-12-08 12:49:03,619- Load Hotels
+2021-12-08 12:49:08,330- Load Times
+2021-12-08 12:49:18,652- Load Transact
+2021-12-08 12:49:18,766- Procedure or function 'SP_REGTRANS' expects parameter '@idTerminal', which was not supplied.
+2021-12-08 12:50:06,404- Load trips
+2021-12-08 12:50:06,405- Load paymint
+2021-12-08 12:50:06,407- Load Terminal
+2021-12-08 12:50:06,408- Load Services
+2021-12-08 12:50:36,868- Load Hotels
+2021-12-08 12:50:41,763- Load Times
+2021-12-08 12:50:49,813- Load Transact
+2021-12-08 12:54:45,466- Login
+2021-12-08 12:54:49,834- Load Services
+2021-12-08 12:54:49,834- Load Terminal
+2021-12-08 12:54:49,835- Load trips
+2021-12-08 12:54:49,838- Load paymint
+2021-12-08 12:55:05,057- Load Hotels
+2021-12-08 12:55:11,447- Load Times
+2021-12-08 12:55:21,589- Load Transact
+2021-12-08 12:58:25,555- Load Services
+2021-12-08 12:58:25,555- Load trips
+2021-12-08 12:58:25,557- Load paymint
+2021-12-08 12:58:25,559- Load Terminal
+2021-12-08 12:58:38,792- Load Hotels
+2021-12-08 12:58:43,526- Load Times
+2021-12-08 12:58:53,035- Load Transact
+2021-12-08 13:45:55,612- Load Services
+2021-12-08 13:45:55,614- Load trips
+2021-12-08 13:45:55,615- Load Terminal
+2021-12-08 13:45:55,616- Load paymint
+2021-12-08 13:46:23,327- Load Hotels
+2021-12-08 13:46:29,852- Load Times
+2021-12-08 13:46:39,432- Load Transact
+2021-12-08 14:02:07,725- Login
+2021-12-08 14:02:11,996- Load Services
+2021-12-08 14:02:11,996- Load trips
+2021-12-08 14:02:11,998- Load Terminal
+2021-12-08 14:02:11,998- Load paymint
+2021-12-08 14:02:31,817- Load Hotels
+2021-12-08 14:02:36,370- Load Times
+2021-12-08 14:02:49,114- Load Transact
+2021-12-08 14:19:14,665- Load Services
+2021-12-08 14:19:14,666- Load trips
+2021-12-08 14:19:14,667- Load paymint
+2021-12-08 14:19:14,669- Load Terminal
+2021-12-08 14:19:31,195- Load Hotels
+2021-12-08 14:19:37,614- Load Times
+2021-12-08 14:19:52,074- Load Transact
+2021-12-08 15:03:51,259- Login
+2021-12-08 15:03:55,895- Load paymint
+2021-12-08 15:03:55,896- Load Services
+2021-12-08 15:03:55,896- Load trips
+2021-12-08 15:03:55,897- Load Terminal
+2021-12-08 15:04:26,354- Load Hotels
+2021-12-08 15:04:32,293- Load Times
+2021-12-08 15:04:43,721- Load Transact

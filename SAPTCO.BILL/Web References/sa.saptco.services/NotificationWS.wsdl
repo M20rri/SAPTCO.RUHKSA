@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.saptco.com.sa/Notification" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.saptco.com.sa/Notification" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.saptco.com.sa/Notification">
+      <s:element name="CancelScheduled">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="senderID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="appRefID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelScheduledResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CancelScheduledResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobileNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="senderID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendSMSResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSMSScheduled">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobileNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="senderID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="appRefID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSMSScheduledResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendSMSScheduledResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="senderID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendEmailResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailNotification">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Email" type="tns:EmailNotification" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="EmailNotification">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TemplateID" nillable="true" type="s:short" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SenderID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ScheduleDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppRefID" nillable="true" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Attachment" type="tns:ArrayOfAttachments" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAttachments">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Attachments" nillable="true" type="tns:Attachments" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Attachments">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileBytes" type="s:base64Binary" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendEmailNotificationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendEmailNotificationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailWithAttachments">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="senderID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Attachments" type="tns:ArrayOfAttachments" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailWithAttachmentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendEmailWithAttachmentsResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailScheduled">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="senderID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ScheduledDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="appRefID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailScheduledResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendEmailScheduledResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailForTicket">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmailRq" type="tns:EmailRq" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="EmailRq">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Channel" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PNR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lang" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TemplateCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TripTypeGroupId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExpirationTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReservationXMlData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassengersXMlData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ScheduledDateTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AppRefId" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendEmailForTicketResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendEmailForTicketResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailForKAUSTTicket">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KAUSTEmailRq" type="tns:KAUSTEmailRq" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="KAUSTEmailRq">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Channel" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PNR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lang" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TemplateCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExpirationTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReservationXMlData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassengersXMlData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TO" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendEmailForKAUSTTicketResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendEmailForKAUSTTicketResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="boolean" type="s:boolean" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CancelScheduledSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelScheduled" />
+  </wsdl:message>
+  <wsdl:message name="CancelScheduledSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelScheduledResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:SendSMS" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:SendSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSScheduledSoapIn">
+    <wsdl:part name="parameters" element="tns:SendSMSScheduled" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSScheduledSoapOut">
+    <wsdl:part name="parameters" element="tns:SendSMSScheduledResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:SendEmail" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:SendEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailNotificationSoapIn">
+    <wsdl:part name="parameters" element="tns:SendEmailNotification" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailNotificationSoapOut">
+    <wsdl:part name="parameters" element="tns:SendEmailNotificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailWithAttachmentsSoapIn">
+    <wsdl:part name="parameters" element="tns:SendEmailWithAttachments" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailWithAttachmentsSoapOut">
+    <wsdl:part name="parameters" element="tns:SendEmailWithAttachmentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailScheduledSoapIn">
+    <wsdl:part name="parameters" element="tns:SendEmailScheduled" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailScheduledSoapOut">
+    <wsdl:part name="parameters" element="tns:SendEmailScheduledResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailForTicketSoapIn">
+    <wsdl:part name="parameters" element="tns:SendEmailForTicket" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailForTicketSoapOut">
+    <wsdl:part name="parameters" element="tns:SendEmailForTicketResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailForKAUSTTicketSoapIn">
+    <wsdl:part name="parameters" element="tns:SendEmailForKAUSTTicket" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailForKAUSTTicketSoapOut">
+    <wsdl:part name="parameters" element="tns:SendEmailForKAUSTTicketResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelScheduledHttpGetIn">
+    <wsdl:part name="senderID" type="s:string" />
+    <wsdl:part name="appRefID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CancelScheduledHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSHttpGetIn">
+    <wsdl:part name="mobileNumber" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="senderID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSScheduledHttpGetIn">
+    <wsdl:part name="mobileNumber" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="senderID" type="s:string" />
+    <wsdl:part name="scheduleDate" type="s:string" />
+    <wsdl:part name="appRefID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSScheduledHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailHttpGetIn">
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="subject" type="s:string" />
+    <wsdl:part name="body" type="s:string" />
+    <wsdl:part name="senderID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailScheduledHttpGetIn">
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="subject" type="s:string" />
+    <wsdl:part name="body" type="s:string" />
+    <wsdl:part name="senderID" type="s:string" />
+    <wsdl:part name="ScheduledDate" type="s:string" />
+    <wsdl:part name="appRefID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailScheduledHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="CancelScheduledHttpPostIn">
+    <wsdl:part name="senderID" type="s:string" />
+    <wsdl:part name="appRefID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CancelScheduledHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSHttpPostIn">
+    <wsdl:part name="mobileNumber" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="senderID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSScheduledHttpPostIn">
+    <wsdl:part name="mobileNumber" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="senderID" type="s:string" />
+    <wsdl:part name="scheduleDate" type="s:string" />
+    <wsdl:part name="appRefID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSScheduledHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailHttpPostIn">
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="subject" type="s:string" />
+    <wsdl:part name="body" type="s:string" />
+    <wsdl:part name="senderID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailScheduledHttpPostIn">
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="subject" type="s:string" />
+    <wsdl:part name="body" type="s:string" />
+    <wsdl:part name="senderID" type="s:string" />
+    <wsdl:part name="ScheduledDate" type="s:string" />
+    <wsdl:part name="appRefID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailScheduledHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:portType name="NotificationWSSoap">
+    <wsdl:operation name="CancelScheduled">
+      <wsdl:input message="tns:CancelScheduledSoapIn" />
+      <wsdl:output message="tns:CancelScheduledSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <wsdl:input message="tns:SendSMSSoapIn" />
+      <wsdl:output message="tns:SendSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSMSScheduled">
+      <wsdl:input message="tns:SendSMSScheduledSoapIn" />
+      <wsdl:output message="tns:SendSMSScheduledSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <wsdl:input message="tns:SendEmailSoapIn" />
+      <wsdl:output message="tns:SendEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailNotification">
+      <wsdl:input message="tns:SendEmailNotificationSoapIn" />
+      <wsdl:output message="tns:SendEmailNotificationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailWithAttachments">
+      <wsdl:input message="tns:SendEmailWithAttachmentsSoapIn" />
+      <wsdl:output message="tns:SendEmailWithAttachmentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailScheduled">
+      <wsdl:input message="tns:SendEmailScheduledSoapIn" />
+      <wsdl:output message="tns:SendEmailScheduledSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailForTicket">
+      <wsdl:input message="tns:SendEmailForTicketSoapIn" />
+      <wsdl:output message="tns:SendEmailForTicketSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailForKAUSTTicket">
+      <wsdl:input message="tns:SendEmailForKAUSTTicketSoapIn" />
+      <wsdl:output message="tns:SendEmailForKAUSTTicketSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="NotificationWSHttpGet">
+    <wsdl:operation name="CancelScheduled">
+      <wsdl:input message="tns:CancelScheduledHttpGetIn" />
+      <wsdl:output message="tns:CancelScheduledHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <wsdl:input message="tns:SendSMSHttpGetIn" />
+      <wsdl:output message="tns:SendSMSHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSMSScheduled">
+      <wsdl:input message="tns:SendSMSScheduledHttpGetIn" />
+      <wsdl:output message="tns:SendSMSScheduledHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <wsdl:input message="tns:SendEmailHttpGetIn" />
+      <wsdl:output message="tns:SendEmailHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailScheduled">
+      <wsdl:input message="tns:SendEmailScheduledHttpGetIn" />
+      <wsdl:output message="tns:SendEmailScheduledHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="NotificationWSHttpPost">
+    <wsdl:operation name="CancelScheduled">
+      <wsdl:input message="tns:CancelScheduledHttpPostIn" />
+      <wsdl:output message="tns:CancelScheduledHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <wsdl:input message="tns:SendSMSHttpPostIn" />
+      <wsdl:output message="tns:SendSMSHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSMSScheduled">
+      <wsdl:input message="tns:SendSMSScheduledHttpPostIn" />
+      <wsdl:output message="tns:SendSMSScheduledHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <wsdl:input message="tns:SendEmailHttpPostIn" />
+      <wsdl:output message="tns:SendEmailHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailScheduled">
+      <wsdl:input message="tns:SendEmailScheduledHttpPostIn" />
+      <wsdl:output message="tns:SendEmailScheduledHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NotificationWSSoap" type="tns:NotificationWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CancelScheduled">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/CancelScheduled" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/SendSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMSScheduled">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/SendSMSScheduled" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/SendEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailNotification">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailNotification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailWithAttachments">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailWithAttachments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailScheduled">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailScheduled" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailForTicket">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailForTicket" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailForKAUSTTicket">
+      <soap:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailForKAUSTTicket" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NotificationWSSoap12" type="tns:NotificationWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CancelScheduled">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/CancelScheduled" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/SendSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMSScheduled">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/SendSMSScheduled" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/SendEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailNotification">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailNotification" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailWithAttachments">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailWithAttachments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailScheduled">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailScheduled" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailForTicket">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailForTicket" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailForKAUSTTicket">
+      <soap12:operation soapAction="http://www.saptco.com.sa/Notification/SendEmailForKAUSTTicket" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NotificationWSHttpGet" type="tns:NotificationWSHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="CancelScheduled">
+      <http:operation location="/CancelScheduled" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <http:operation location="/SendSMS" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMSScheduled">
+      <http:operation location="/SendSMSScheduled" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <http:operation location="/SendEmail" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailScheduled">
+      <http:operation location="/SendEmailScheduled" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NotificationWSHttpPost" type="tns:NotificationWSHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="CancelScheduled">
+      <http:operation location="/CancelScheduled" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <http:operation location="/SendSMS" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMSScheduled">
+      <http:operation location="/SendSMSScheduled" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <http:operation location="/SendEmail" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmailScheduled">
+      <http:operation location="/SendEmailScheduled" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NotificationWS">
+    <wsdl:port name="NotificationWSSoap" binding="tns:NotificationWSSoap">
+      <soap:address location="http://services.saptco.sa/Notifications/NotificationWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="NotificationWSSoap12" binding="tns:NotificationWSSoap12">
+      <soap12:address location="http://services.saptco.sa/Notifications/NotificationWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="NotificationWSHttpGet" binding="tns:NotificationWSHttpGet">
+      <http:address location="http://services.saptco.sa/Notifications/NotificationWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="NotificationWSHttpPost" binding="tns:NotificationWSHttpPost">
+      <http:address location="http://services.saptco.sa/Notifications/NotificationWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
