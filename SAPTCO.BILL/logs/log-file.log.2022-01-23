@@ -1,0 +1,62 @@
+﻿2022-01-23 16:53:07,433- Login
+2022-01-23 16:53:09,535- Login failed for user 'sa'.
+2022-01-23 16:53:27,114- Login
+2022-01-23 16:53:27,207- Login failed for user 'sa'.
+2022-01-23 16:53:59,336- Login
+2022-01-23 16:58:44,295- Login
+2022-01-23 16:58:46,484- This operation requires a connection to the 'master' database. Unable to create a connection to the 'master' database because the original database connection has been opened and credentials have been removed from the connection string. Supply an unopened connection.
+2022-01-23 16:58:55,383- Login
+2022-01-23 17:01:45,765- Login
+2022-01-23 17:01:55,842- Load Services
+2022-01-23 17:01:55,847- Load trips
+2022-01-23 17:01:55,869- Load paymint
+2022-01-23 17:01:55,927- Load Terminal
+2022-01-23 17:02:01,557- Load Services
+2022-01-23 17:02:01,559- Load paymint
+2022-01-23 17:02:01,562- Load trips
+2022-01-23 17:02:01,562- Load Terminal
+2022-01-23 17:02:08,978- Load Hotels
+2022-01-23 17:02:10,673- Load Times
+2022-01-23 17:02:10,697- Load TimeTrip
+2022-01-23 17:02:10,711- Load reminder
+2022-01-23 17:02:10,803- Load Times
+2022-01-23 17:02:10,811- Load TimeTrip
+2022-01-23 17:02:10,821- Load reminder
+2022-01-23 17:02:11,260- Load TimeTrip
+2022-01-23 17:02:11,277- Load reminder
+2022-01-23 17:02:11,403- Load TimeTrip
+2022-01-23 17:02:11,422- Load reminder
+2022-01-23 17:02:11,540- Load TimeTrip
+2022-01-23 17:02:11,565- Load reminder
+2022-01-23 17:02:11,675- Load TimeTrip
+2022-01-23 17:02:11,700- Load reminder
+2022-01-23 17:02:11,811- Load TimeTrip
+2022-01-23 17:02:11,836- Load reminder
+2022-01-23 17:02:15,206- Load CheckOut
+2022-01-23 17:04:05,644- Load trips
+2022-01-23 17:04:05,644- Load Services
+2022-01-23 17:04:05,647- Load paymint
+2022-01-23 17:04:05,659- Load Terminal
+2022-01-23 17:05:01,919- Login
+2022-01-23 17:05:06,060- Load Services
+2022-01-23 17:05:06,061- Load trips
+2022-01-23 17:05:06,064- Load paymint
+2022-01-23 17:05:06,066- Load Terminal
+2022-01-23 17:05:10,356- Load Services
+2022-01-23 17:05:10,359- Load trips
+2022-01-23 17:05:10,359- Load paymint
+2022-01-23 17:05:10,360- Load Terminal
+2022-01-23 17:05:28,590- Load Hotels
+2022-01-23 17:05:29,701- Load Times
+2022-01-23 17:05:29,715- Load TimeTrip
+2022-01-23 17:05:29,726- Load reminder
+2022-01-23 17:05:29,834- Load Times
+2022-01-23 17:05:29,845- Load TimeTrip
+2022-01-23 17:05:29,858- Load reminder
+2022-01-23 17:05:30,230- Load TimeTrip
+2022-01-23 17:05:30,246- Load reminder
+2022-01-23 17:05:30,369- Load TimeTrip
+2022-01-23 17:05:30,393- Load reminder
+2022-01-23 17:05:30,506- Load TimeTrip
+2022-01-23 17:05:30,536- Load reminder
+2022-01-23 17:05:35,920- Load CheckOut

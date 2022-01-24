@@ -6,31 +6,36 @@ const DOWNLOADSPAN = document.getElementById('downloadSpan');
 
 const PREPARECHECKOUT = _ => {
 
+    let url = window.location.pathname;
+    let invoiceId = url.substring(url.lastIndexOf('/') + 1);
+
+
     document.getElementById('loader').style.display = 'block';
     document.getElementById('billDiv').style.display = 'none';
     document.getElementById('paymentDiv').style.display = 'none';
-
-    axios(`${BASE_URL}/MobileService/GenerateTicketTable/${id}`, {
+    axios(`${BASE_URL}/MobileService/GenerateTicketTable/${invoiceId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
     }).then(result => {
         document.getElementById('loader').style.display = 'none';
-        document.getElementById('paymentDiv').style.display = 'block';
+        document.getElementById('billDiv').style.display = 'block';
         console.log(result.data);
         TBLBODY.innerHTML = '';
         DOWNLOADSPAN.innerHTML = '';
-        for (let ticketUrl of result.data) {
-            TBLBODY.innerHTML += `${HTMLTICKET(ticketUrl)}`;
+
+        const { TicketUrl, InvoiceUrl } = result.data;
+
+        for (let item of TicketUrl) {
+            TBLBODY.innerHTML += `${HTMLTICKET(item)}`;
         };
+
+        DOWNLOADSPAN.innerHTML = `${HTMLINVOICE(InvoiceUrl)}`
+
     });
 
 };
-
-const DOWNLOAD = _ => {
-    location.href = sessionStorage.getItem('downloadUrl');
-}
 
 const HTMLTICKET = (row) => {
     return `
@@ -39,6 +44,13 @@ const HTMLTICKET = (row) => {
     </tr>
     `;
 };
+
+const HTMLINVOICE = (url) => {
+    return `
+            <a href="${url}" class="btn btn-link mt-2"><b>التحميل</b></button>
+    `;
+};
+
 
 (function () {
 

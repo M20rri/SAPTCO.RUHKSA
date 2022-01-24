@@ -16,7 +16,7 @@ const PREPARECHECKOUT = _ => {
             'Content-Type': 'application/json'
         },
         data: JSON.stringify(model)
-    }).then(res => {        
+    }).then(res => {
         const { SAPTCOResult: { code, description }, merchantTransactionId } = res.data;
 
         if (code === 'paid_delivered') {
@@ -27,7 +27,7 @@ const PREPARECHECKOUT = _ => {
                 }
             }).then(result => {
                 document.getElementById('loader').style.display = 'none';
-                location.href = TICKETVIEW;
+                location.href = TICKETVIEW + merchantTransactionId;
             });
             return;
         }

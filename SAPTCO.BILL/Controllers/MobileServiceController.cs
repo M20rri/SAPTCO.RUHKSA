@@ -874,7 +874,7 @@ namespace SAPTCO.BILL.Controllers
                 TicketUrl = ds.Tables[0].AsEnumerable().Select(AdataRow => new DTOTickeUrls
                 {
                     Id = AdataRow.Field<int>("Id"),
-                    Url = AdataRow.Field<string>("DownloadUrl")
+                    Url = AdataRow.Field<string>("Url")
                 }).ToList()
             }).FirstOrDefault();
 
