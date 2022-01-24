@@ -125,6 +125,7 @@
     <Content Include="Global.asax" />
     <Content Include="PaymentDownload.aspx" />
     <Content Include="Scripts\jquery.3.2.1.min.js" />
+    <Content Include="Scripts\tickets.js" />
     <Content Include="Scripts\Login.js" />
     <Content Include="Scripts\Report.js" />
     <Content Include="Scripts\Saptco.js" />
@@ -137,6 +138,7 @@
     <Content Include="Views\Saptco\Report.cshtml" />
     <Content Include="Views\Saptco\Payment.cshtml" />
     <Content Include="Views\Saptco\landing.cshtml" />
+    <Content Include="Views\Saptco\Tickets.cshtml" />
     <None Include="Web References\sa.saptco.services\NotificationWS.disco" />
     <Content Include="Web.config" />
   </ItemGroup>

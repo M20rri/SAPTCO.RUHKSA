@@ -25,6 +25,11 @@ namespace SAPTCO.BILL.Controllers
             return View();
         }
 
+        public ActionResult Tickets(int id)
+        {
+            return View();
+        }
+
         public ActionResult Report()
         {
             return View();

@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 
 namespace SAPTCO.BILL.Models
 {
@@ -180,5 +181,17 @@ namespace SAPTCO.BILL.Models
         public int VatPercentage { get; set; }
         public double VatAmount { get; set; }
         public double TotalIncludingVat { get; set; }
+    }
+
+    public class DTOTickeUrls
+    {
+        public int Id { get; set; }
+        public string Url { get; set; }
+    }
+
+    public class DTODownloadDocs
+    {
+        public List<DTOTickeUrls> TicketUrl { get; set; }
+        public string InvoiceUrl { get; set; }
     }
 }

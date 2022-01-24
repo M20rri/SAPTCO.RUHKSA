@@ -480,16 +480,17 @@ namespace SAPTCO.BILL.Controllers
 
 
                 merchand.MerchantTransactionId = checkOut.Id;
-                merchand.Amount = checkOut.Amount;
+                merchand.Amount = Math.Floor(checkOut.Amount);
 
                 #region Create CheckOut
                 {
                     var client = new RestClient(ConfigurationManager.AppSettings["checkoutAPI"]);
                     client.Timeout = -1;
+                    string body = JsonConvert.SerializeObject(merchand);
                     var request = new RestRequest(Method.POST);
                     request.AddHeader("Authorization", ConfigurationManager.AppSettings["HyperPayLogin"]);
                     request.AddHeader("Content-Type", "application/json");
-                    request.AddParameter("application/json", JsonConvert.SerializeObject(merchand), ParameterType.RequestBody);
+                    request.AddParameter("application/json", body, ParameterType.RequestBody);
                     IRestResponse response = client.Execute(request);
                     result = JsonConvert.DeserializeObject<DTOCheckOutResponse>(response.Content);
 
@@ -794,6 +795,12 @@ namespace SAPTCO.BILL.Controllers
 
                         // save in database
 
+
+                        string invoiceQueryParam = HttpUtility.UrlEncode(Traversehtml.Encrypt(id.ToString()));
+
+                        billResponse = $"{ConfigurationManager.AppSettings["BASE_URL"]}/PaymentDownload.aspx?invId={invoiceQueryParam}";
+
+
                         using (SqlConnection _cn = new SqlConnection(ConfigurationManager.ConnectionStrings["billConstr"].ToString()))
                         {
                             using (SqlCommand _cmd = new SqlCommand("SP_PAYMMENT_INVOICE", _cn))
@@ -801,6 +808,7 @@ namespace SAPTCO.BILL.Controllers
                                 _cmd.CommandType = CommandType.StoredProcedure;
                                 _cn.Open();
                                 _cmd.Parameters.Add("@INVID", SqlDbType.Int).Value = id;
+                                _cmd.Parameters.Add("@DOWNLOADURL", SqlDbType.NVarChar).Value = billResponse;
                                 _cmd.Parameters.Add("@BILL", SqlDbType.VarBinary).Value = bytes;
                                 var rdr = _cmd.ExecuteReader();
                                 while (rdr.Read())
@@ -813,10 +821,6 @@ namespace SAPTCO.BILL.Controllers
                             }
                         }
 
-
-                        string invoiceQueryParam = HttpUtility.UrlEncode(Traversehtml.Encrypt(id.ToString()));
-
-                        billResponse = $"{ConfigurationManager.AppSettings["BASE_URL"]}/PaymentDownload.aspx?invId={invoiceQueryParam}";
 
                         #region Send SMS
                         {
@@ -844,6 +848,39 @@ namespace SAPTCO.BILL.Controllers
                 return Json(new { response, url = billResponse }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        [HttpGet]
+        public JsonResult GenerateTicketTable(int id)
+        {
+            List<DTOTickeUrls> ticketsUrls = new List<DTOTickeUrls>();
+
+            SqlConnection _cn = new SqlConnection(ConfigurationManager.ConnectionStrings["billConstr"].ToString());
+            string query = $"EXECUTE SP_DOWNLOADTICKET {id}";
+
+            DTODownloadDocs docs = new DTODownloadDocs();
+
+            SqlCommand cmd = new SqlCommand(query, _cn);
+            SqlDataAdapter da = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+            da = new SqlDataAdapter(cmd);
+            da.Fill(ds);
+            _cn.Close();
+
+
+            docs = ds.Tables[1].AsEnumerable().Select(QdataRow => new DTODownloadDocs
+            {
+                InvoiceUrl = QdataRow.Field<string>("DownloadUrl"),
+                TicketUrl = ds.Tables[0].AsEnumerable().Select(AdataRow => new DTOTickeUrls
+                {
+                    Id = AdataRow.Field<int>("Id"),
+                    Url = AdataRow.Field<string>("DownloadUrl")
+                }).ToList()
+            }).FirstOrDefault();
+
+            return Json(docs, JsonRequestBehavior.AllowGet);
+        }
+
 
         private string DrawInvoiceSection(int invoiceNumber)
         {
