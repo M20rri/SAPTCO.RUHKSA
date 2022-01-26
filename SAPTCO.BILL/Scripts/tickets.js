@@ -40,7 +40,7 @@ const PREPARECHECKOUT = _ => {
 const HTMLTICKET = (row) => {
     return `
     <tr>
-        <th scope="row"><a href="${row.Url}">Ticekt_${row.Id}</a></th>
+        <th scope="row"><a href="${row.Url}">Ticekt</a></th>
     </tr>
     `;
 };

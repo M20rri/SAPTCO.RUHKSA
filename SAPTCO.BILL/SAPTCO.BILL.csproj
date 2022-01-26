@@ -125,6 +125,7 @@
     <Content Include="Files\Ticket.html" />
     <Content Include="Global.asax" />
     <Content Include="PaymentDownload.aspx" />
+    <Content Include="ScanTicket.aspx" />
     <Content Include="Scripts\jquery.3.2.1.min.js" />
     <Content Include="Scripts\tickets.js" />
     <Content Include="Scripts\Login.js" />
@@ -191,6 +192,13 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScanTicket.aspx.cs">
+      <DependentUpon>ScanTicket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ScanTicket.aspx.designer.cs">
+      <DependentUpon>ScanTicket.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web References\sa.saptco.services\Reference.cs">
       <AutoGen>True</AutoGen>

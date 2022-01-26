@@ -676,11 +676,8 @@ namespace SAPTCO.BILL.Controllers
 
                         byte[] bytes = doc.Save();
 
-
-
                         string invoiceQueryParam = HttpUtility.UrlEncode(Traversehtml.Encrypt(hyperPayTickets.FirstOrDefault().TicketNo.ToString()));
                         billResponse = $"{ConfigurationManager.AppSettings["BASE_URL"]}/DownloadTicket.aspx?invId={invoiceQueryParam}";
-
 
                         // save in database
 
@@ -915,20 +912,6 @@ namespace SAPTCO.BILL.Controllers
             string result = "";
             foreach (var item in items)
             {
-                string qrDate = item.CreatedAt;
-                string qrDateTime = string.Concat(qrDate, "T", item.CreatedTime);
-                string sellerName = Helpers.GetTLV(1, "Saudi Public Transport Company");
-                string VATRegistrationNumber = Helpers.GetTLV(2, "300004441600003");
-                string timeStamp = Helpers.GetTLV(3, qrDateTime);
-                string invoiceTotalWithVAT = Helpers.GetTLV(4, item.TotalIncludingVat.ToString());
-                string VATTotal = Helpers.GetTLV(5, item.VatAmount.ToString());
-
-                string qrHexa = string.Concat(sellerName, VATRegistrationNumber, timeStamp, invoiceTotalWithVAT, VATTotal);
-                string TLVBase64 = Helpers.FromHexaToBase64(qrHexa);
-
-                Traversehtml.GenerateQRCode(TLVBase64);
-
-
                 result += $"<div style='width: 680px;height: 300px;font-family: sans-serif;background: #f8f5ee url(\"{backgroundUrl}\") bottom center no-repeat; " +
                 "border-radius: 1em;border-top: 0.25em solid #a57c35;border-bottom: 0.25em solid #766e64;box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); margin: 2.4em auto;'>";
                 result += "<div style='width: 70px; height: 80px; background: #ffffff; border-radius: 50%; float: left; margin-top: 110px; margin-left: -35px; box-shadow: inset -1px 0 #dfdfdf;'></div>";
@@ -992,6 +975,10 @@ namespace SAPTCO.BILL.Controllers
 
                 result += "</div>";
                 result += "</div>";
+
+                string TicketId = HttpUtility.UrlEncode(Traversehtml.Encrypt(item.TicketNo));
+                string ticketUrl = $"{ConfigurationManager.AppSettings["BASE_URL"]}/ScanTicket.aspx?TicketId={TicketId}";
+                Traversehtml.GenerateQRCode(ticketUrl);
             }
 
 
