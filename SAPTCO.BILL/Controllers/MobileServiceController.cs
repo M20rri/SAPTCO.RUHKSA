@@ -472,7 +472,7 @@ namespace SAPTCO.BILL.Controllers
 
                     using (SaptcoContext _db = new SaptcoContext())
                     {
-                        string query = $"EXECUTE SP_CHECKOUT '{_checkount.Status}',{_checkount.Amount},'{_checkount.Type}',{model.Quantity},{model.UnitPrice},'{model.Merchand.GivenName}','{model.Merchand.Phone}'";
+                        string query = $"EXECUTE SP_CHECKOUT '{_checkount.Status}',{_checkount.Amount},'{_checkount.Type}',{model.Quantity},{model.UnitPrice},'{model.Merchand.GivenName}','{model.Merchand.Phone}',N'{model.FromPoint}',N'{model.ToPoint}','{model.ArrivalTime}'";
                         checkOut = _db.Database.SqlQuery<DTOCheckAmountRes>(query).FirstOrDefault();
                     }
                 }
@@ -622,7 +622,7 @@ namespace SAPTCO.BILL.Controllers
             string ticket = "";
             ResponseMessageVM response = new ResponseMessageVM();
             HyperPayInvoice hyperPayInvoice = new HyperPayInvoice();
-            List<HyperPayInvoice> hyperPayTickets = new List<HyperPayInvoice>();
+            List<HyperPayTicket> hyperPayTickets = new List<HyperPayTicket>();
             List<string> tickets = new List<string>();
             int no_tickets = 0;
             using (SaptcoContext _db = new SaptcoContext())
@@ -632,95 +632,77 @@ namespace SAPTCO.BILL.Controllers
                     #region Ticket Step
                     {
                         string query = $"EXECUTE SP_PRINTHYPERPAYTICKET {id}";
-                        hyperPayTickets = _db.Database.SqlQuery<HyperPayInvoice>(query).ToList();
+                        hyperPayTickets = _db.Database.SqlQuery<HyperPayTicket>(query).ToList();
                         no_tickets = hyperPayTickets.Count;
-                        string trRows = DrawTicketDetails(hyperPayTickets.FirstOrDefault());
+                        string trRows = DrawTicketDetails(hyperPayTickets);
 
                         #region Create Ticket 
 
-                        foreach (var hyperPayTicket in hyperPayTickets)
+                        ticket = Traversehtml.CreateHyperPayNoteCreditNoteTicket(trRows);
+
+                        string pdf_page_size = "A4";
+                        PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize),
+                        pdf_page_size, true);
+
+
+
+                        string pdf_orientation = "Portrait";
+                        PdfPageOrientation pdfOrientation =
+                        (PdfPageOrientation)Enum.Parse(typeof(PdfPageOrientation), pdf_orientation, true);
+
+                        int webPageWidth = 1024;
+                        int webPageHeight = 0;
+
+
+
+                        // instantiate a html to pdf converter object
+                        HtmlToPdf converter = new HtmlToPdf();
+
+
+
+                        // set converter options
+                        converter.Options.PdfPageSize = pageSize;
+                        converter.Options.PdfPageOrientation = pdfOrientation;
+                        converter.Options.WebPageWidth = webPageWidth;
+                        converter.Options.WebPageHeight = webPageHeight;
+
+
+
+                        // create a new pdf document converting an url
+                        PdfDocument doc = converter.ConvertHtmlString(ticket, "");
+
+
+                        // save pdf document
+
+                        byte[] bytes = doc.Save();
+
+
+
+                        string invoiceQueryParam = HttpUtility.UrlEncode(Traversehtml.Encrypt(hyperPayTickets.FirstOrDefault().TicketNo.ToString()));
+                        billResponse = $"{ConfigurationManager.AppSettings["BASE_URL"]}/DownloadTicket.aspx?invId={invoiceQueryParam}";
+
+
+                        // save in database
+
+                        using (SqlConnection _cn = new SqlConnection(ConfigurationManager.ConnectionStrings["billConstr"].ToString()))
                         {
-
-                            ticket = Traversehtml.CreateHyperPayNoteCreditNoteTicket(trRows, hyperPayTicket);
-
-                            string qrDate = hyperPayTicket.CreatedAt;
-                            string qrDateTime = string.Concat(qrDate, "T", hyperPayTicket.CreatedTime);
-                            string sellerName = Helpers.GetTLV(1, "Saudi Public Transport Company");
-                            string VATRegistrationNumber = Helpers.GetTLV(2, "300004441600003");
-                            string timeStamp = Helpers.GetTLV(3, qrDateTime);
-                            string invoiceTotalWithVAT = Helpers.GetTLV(4, hyperPayTicket.TotalIncludingVat.ToString());
-                            string VATTotal = Helpers.GetTLV(5, hyperPayTicket.VatAmount.ToString());
-
-                            string qrHexa = string.Concat(sellerName, VATRegistrationNumber, timeStamp, invoiceTotalWithVAT, VATTotal);
-                            string TLVBase64 = Helpers.FromHexaToBase64(qrHexa);
-
-                            Traversehtml.GenerateQRCode(TLVBase64);
-
-                            string pdf_page_size = "A4";
-                            PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize),
-                            pdf_page_size, true);
-
-
-
-                            string pdf_orientation = "Portrait";
-                            PdfPageOrientation pdfOrientation =
-                            (PdfPageOrientation)Enum.Parse(typeof(PdfPageOrientation), pdf_orientation, true);
-
-                            int webPageWidth = 1024;
-                            int webPageHeight = 0;
-
-
-
-                            // instantiate a html to pdf converter object
-                            HtmlToPdf converter = new HtmlToPdf();
-
-
-
-                            // set converter options
-                            converter.Options.PdfPageSize = pageSize;
-                            converter.Options.PdfPageOrientation = pdfOrientation;
-                            converter.Options.WebPageWidth = webPageWidth;
-                            converter.Options.WebPageHeight = webPageHeight;
-
-
-
-                            // create a new pdf document converting an url
-                            PdfDocument doc = converter.ConvertHtmlString(ticket, "");
-
-
-                            // save pdf document
-
-                            byte[] bytes = doc.Save();
-
-
-
-                            string invoiceQueryParam = HttpUtility.UrlEncode(Traversehtml.Encrypt(hyperPayTicket.InvoiceId.ToString()));
-                            billResponse = $"{ConfigurationManager.AppSettings["BASE_URL"]}/DownloadTicket.aspx?invId={invoiceQueryParam}";
-
-
-                            // save in database
-
-                            using (SqlConnection _cn = new SqlConnection(ConfigurationManager.ConnectionStrings["billConstr"].ToString()))
+                            using (SqlCommand _cmd = new SqlCommand("SP_PAYMMENT_TICKET", _cn))
                             {
-                                using (SqlCommand _cmd = new SqlCommand("SP_PAYMMENT_TICKET", _cn))
+                                _cmd.CommandType = CommandType.StoredProcedure;
+                                _cn.Open();
+                                _cmd.Parameters.Add("@INVID", SqlDbType.Int).Value = id;
+                                _cmd.Parameters.Add("@DOWNLOADURL", SqlDbType.NVarChar).Value = billResponse;
+                                _cmd.Parameters.Add("@TICKETID", SqlDbType.Int).Value = hyperPayTickets.FirstOrDefault().TicketNo;
+                                _cmd.Parameters.Add("@BILL", SqlDbType.VarBinary).Value = bytes;
+                                var rdr = _cmd.ExecuteReader();
+                                while (rdr.Read())
                                 {
-                                    _cmd.CommandType = CommandType.StoredProcedure;
-                                    _cn.Open();
-                                    _cmd.Parameters.Add("@INVID", SqlDbType.Int).Value = id;
-                                    _cmd.Parameters.Add("@DOWNLOADURL", SqlDbType.NVarChar).Value = billResponse;
-                                    _cmd.Parameters.Add("@TICKETID", SqlDbType.Int).Value = hyperPayTicket.InvoiceId;
-                                    _cmd.Parameters.Add("@BILL", SqlDbType.VarBinary).Value = bytes;
-                                    var rdr = _cmd.ExecuteReader();
-                                    while (rdr.Read())
-                                    {
-                                        response.code = Convert.ToInt32(rdr[0]);
-                                        response.message = rdr[1].ToString();
-                                    }
-                                    _cn.Close();
+                                    response.code = Convert.ToInt32(rdr[0]);
+                                    response.message = rdr[1].ToString();
                                 }
+                                _cn.Close();
                             }
                         }
-
 
                         #endregion
 
@@ -923,34 +905,96 @@ namespace SAPTCO.BILL.Controllers
             return result;
         }
 
-        private string DrawTicketDetails(HyperPayInvoice item)
+
+        private string DrawTicketDetails(List<HyperPayTicket> items)
         {
-            string result = "<tbody>";
-            result += $"<tr>" +
-                    $"<td style='border: 1px solid #cccccc; padding: 8px;'>{item.Description}</td>" +
-                    $"<td style='border: 1px solid #cccccc;'>وحدة</td>" +
-                    $"<td style='border: 1px solid #cccccc;direction:ltr;'>{item.Quantity}</td>" +
-                    $"<td style='border: 1px solid #cccccc;direction:ltr;'>{item.UnitPrice}</td>" +
-                    $"<td style='border: 1px solid #cccccc;direction:ltr;'>{item.TotalBeforeVat}</td>" +
-                    $"<td style='border: 1px solid #cccccc;'>{item.VatPercentage}</td>" +
-                    $"<td style='border: 1px solid #cccccc;direction:ltr;'>{item.VatAmount}</td>" +
-                    $"<td style='border: 1px solid #cccccc;direction:ltr;'>{item.TotalIncludingVat}</td>" +
-                    $"</tr>";
 
-            result += "</tbody>" +
-                "<tfoot style='background: #a57c35; color: #ffffff;'>";
+            string backgroundUrl = $"{ConfigurationManager.AppSettings["BASE_URL"]}/assets/ticket-footer-bg.png";
+            string path = Server.MapPath("~/assets/MicrosoftTeams-image.png");
 
-            result += $"<tr>" +
-                      $"<td style='border: 1px solid #cccccc; padding: 8px;'>الإجمالي</td>" +
-                      $"<td style='border: 1px solid #cccccc;'></td>" +
-                      $"<td style='border: 1px solid #cccccc;'></td>" +
-                      $"<td style='border: 1px solid #cccccc;'></td>" +
-                      $"<td style='border: 1px solid #cccccc;direction:ltr;'>{item.TotalBeforeVat}</td>" +
-                      $"<td style='border: 1px solid #cccccc;'></td>" +
-                      $"<td style='border: 1px solid #cccccc;direction:ltr;'>{item.VatAmount}</td>" +
-                      $"<td style='border: 1px solid #cccccc;direction:ltr;'>{item.TotalIncludingVat}</td>" +
-                      $"</tr>" +
-                      $"</tfoot>";
+            string result = "";
+            foreach (var item in items)
+            {
+                string qrDate = item.CreatedAt;
+                string qrDateTime = string.Concat(qrDate, "T", item.CreatedTime);
+                string sellerName = Helpers.GetTLV(1, "Saudi Public Transport Company");
+                string VATRegistrationNumber = Helpers.GetTLV(2, "300004441600003");
+                string timeStamp = Helpers.GetTLV(3, qrDateTime);
+                string invoiceTotalWithVAT = Helpers.GetTLV(4, item.TotalIncludingVat.ToString());
+                string VATTotal = Helpers.GetTLV(5, item.VatAmount.ToString());
+
+                string qrHexa = string.Concat(sellerName, VATRegistrationNumber, timeStamp, invoiceTotalWithVAT, VATTotal);
+                string TLVBase64 = Helpers.FromHexaToBase64(qrHexa);
+
+                Traversehtml.GenerateQRCode(TLVBase64);
+
+
+                result += $"<div style='width: 680px;height: 300px;font-family: sans-serif;background: #f8f5ee url(\"{backgroundUrl}\") bottom center no-repeat; " +
+                "border-radius: 1em;border-top: 0.25em solid #a57c35;border-bottom: 0.25em solid #766e64;box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); margin: 2.4em auto;'>";
+                result += "<div style='width: 70px; height: 80px; background: #ffffff; border-radius: 50%; float: left; margin-top: 110px; margin-left: -35px; box-shadow: inset -1px 0 #dfdfdf;'></div>";
+                result += "<div style='width: 70px; height: 80px; background: #ffffff; border-radius: 50%; float: right; margin-top: 110px; margin-right: -35px; box-shadow: -1px 0 #dfdfdf;'></div>";
+
+
+                result += "<div style='padding: 0 3.5em;'>";
+                result += "<h1 style='margin-bottom: 0.2em; font-size: 2.2em; display: inline-block;'>SAPTCO bus lines</h1>";
+                result += "<img src='http://kentico.interactive.sa/Styles/img/logo.png' style='float: right; margin-top: 1em;' width='225px;' />";
+                result += "</div>";
+
+                result += "<div style='padding: 1em 3.5em; height: 100px;'>";
+
+
+                result += "<div style='width: 35%; float: left;'>";
+                result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>Name</h5>";
+                result += $"<h5 style='margin-top: 0.25em; margin-bottom: 0.25em;'>{item.Customer}</h5>";
+                result += "</div>";
+
+                result += "<div style='width: 35%; float: left; text-align: center;'>";
+                result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>Ticket Type</h5>";
+                result += "<h5 style='padding-top: 0; margin-top: 0.25em; margin-bottom: 0.25em;'>ONEWAY</h5>";
+                result += "</div>";
+
+
+                result += "<div style='width: 30%; float: left;'>";
+                result += "<div style='display: 50%; float: left;'>";
+                result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>Issued by</h5>";
+                result += "<h5 style='margin-top: 0.25em; margin-bottom: 0.25em;'>SAPTCO</h5>";
+                result += "</div></div>";
+
+
+
+                result += "<div style='width: 70%; float: left;'>";
+                result += "<div style='display: 33%; float: left;'>";
+                result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>From</h5>";
+                result += $"<h5 style='margin-top: 0.25em; margin-bottom: 0.75em;'>{item.From}</h5>";
+                result += "<h5 style='color: #a57c35; margin-top: 0em; margin-bottom: 0; padding-bottom: 0;'>To</h5>";
+                result += $"<h5 style='margin-top: 0.25em;'>{item.To}</h5>";
+                result += "</div>";
+
+
+                result += "<div style='display: 33%; float: left; margin-left: 2em;'>";
+                result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>Date</h5>";
+                result += $"<h5 style='margin-top: 0.25em; margin-bottom: 0.75em;'>{item.CreatedAt}</h5>";
+                result += "</div>";
+
+
+                result += "<div style='display: 33%; float: left; margin-left: 2em;'>";
+                result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>Time</h5>";
+                result += $"<h5 style='margin-top: 0.25em; margin-bottom: 0.75em;'>{item.ArrivalTime}</h5>";
+                result += "</div></div>";
+
+
+                result += "<div style='width: 30%; float: left;'>";
+                result += "<div style='display: 50%; float: left;'>";
+                result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>Ticket number</h5>";
+                result += $"<h4 style='margin-top: 0.5em; margin-bottom: 0.5em;'>{item.TicketNo}</h4>";
+                result += $"<img style='display: block; margin-top: 0.25em;' src='{path}' width='90px;'  />";
+                result += " </div> </div>";
+
+                result += "</div>";
+                result += "</div>";
+            }
+
+
 
             return result;
         }

@@ -326,7 +326,10 @@ const PREPARECHECKOUT = _ => {
                 Phone: PHONE
             },
             Quantity: countTiket,
-            ServiceId: +SERVICE
+            ServiceId: +SERVICE,
+            FromPoint: $("#TerminalDrop option:selected").text(),
+            ToPoint : $("#hotelDrop option:selected").text(),
+            ArrivalTime: $("#TimeDrop option:selected").text()
         }
 
         console.log(model)

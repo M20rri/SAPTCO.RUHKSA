@@ -27,7 +27,7 @@ const PREPARECHECKOUT = _ => {
                 }
             }).then(result => {
                 document.getElementById('loader').style.display = 'none';
-                location.href = TICKETVIEW + merchantTransactionId;
+                location.href = `${TICKETVIEW}/${merchantTransactionId}`;
             });
             return;
         }

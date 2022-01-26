@@ -22,6 +22,9 @@ namespace SAPTCO.BILL.Models
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public int ServiceId { get; set; }
+        public string FromPoint { get; set; }
+        public string ToPoint { get; set; }
+        public string ArrivalTime { get; set; }
     }
 
     public class DTOMerchand
@@ -173,6 +176,25 @@ namespace SAPTCO.BILL.Models
         public string TitleEn { get; set; } = "Simplified Tax Invoice";
         public int InvoiceId { get; set; }
         public string Description { get; set; } = "تذكرة روح السعودية";
+        public int Quantity { get; set; }
+        public double UnitPrice { get; set; }
+        public string CreatedAt { get; set; }
+        public string CreatedTime { get; set; }
+        public double TotalBeforeVat { get; set; }
+        public int VatPercentage { get; set; }
+        public double VatAmount { get; set; }
+        public double TotalIncludingVat { get; set; }
+    }
+
+    public class HyperPayTicket
+    {
+        public string Customer { get; set; }
+        public string Phone { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string ArrivalTime { get; set; }
+        public string TicketNo { get; set; }
+
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
         public string CreatedAt { get; set; }

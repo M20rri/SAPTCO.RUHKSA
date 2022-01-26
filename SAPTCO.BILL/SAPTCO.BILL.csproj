@@ -116,6 +116,7 @@
     <Content Include="assets\MicrosoftTeams-image.png" />
     <Content Include="assets\qr_code.png" />
     <Content Include="assets\style.css" />
+    <Content Include="assets\ticket-footer-bg.png" />
     <Content Include="Download.aspx" />
     <Content Include="DownloadTicket.aspx" />
     <Content Include="Files\HyperPayInvoice.html" />
@@ -166,6 +167,7 @@
     <Compile Include="Helper\EndPointLogger.cs" />
     <Compile Include="Helper\Helpers.cs" />
     <Compile Include="Helper\HexadecimalEncoding.cs" />
+    <Compile Include="Helper\IEnumerableExtensions.cs" />
     <Compile Include="Models\CustomerVM.cs" />
     <Compile Include="Models\HyperPayDTO.cs" />
     <Compile Include="Models\PDFVM.cs" />
