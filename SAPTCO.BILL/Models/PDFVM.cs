@@ -147,6 +147,35 @@ namespace SAPTCO.BILL.Models
         }
 
 
+        public static void GenerateQRCodeTicket(string ticketScanUrl , string ticketImageUrl)
+        {
+            var writer = new QRCodeWriter();
+            var resultBit = writer.encode(ticketScanUrl, BarcodeFormat.QR_CODE, 200, 200);
+            var matrix = resultBit;
+            int scale = 2;
+            Bitmap result = new Bitmap(matrix.Width * scale, matrix.Height * scale);
+            for (int x = 0; x < matrix.Height; x++)
+            {
+                for (int y = 0; y < matrix.Width; y++)
+                {
+                    Color pixel = matrix[x, y] ? Color.Black : Color.White;
+                    for (int i = 0; i < scale; i++)
+                        for (int j = 0; j < scale; j++)
+                            result.SetPixel(x * scale + i, y * scale + j, pixel);
+                }
+            }
+            result.Save(ticketImageUrl);
+        }
+
+        public static string MakeIntoSequence(int i, int total_length, string prefix)
+        {
+            string output = i.ToString();
+            int length_minus_prefix = total_length - prefix.Length;
+            while (output.Length < length_minus_prefix)
+                output = "0" + output;
+            return prefix + output;
+        }
+
         public static string CreateHyperPayNoteCreditNote(string trData, string trSecion, HyperPayInvoice model)
         {
             string body = string.Empty;

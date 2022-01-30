@@ -907,11 +907,18 @@ namespace SAPTCO.BILL.Controllers
         {
 
             string backgroundUrl = $"{ConfigurationManager.AppSettings["BASE_URL"]}/assets/ticket-footer-bg.png";
-            string path = Server.MapPath("~/assets/MicrosoftTeams-image.png");
+            string saptcoLogo = Server.MapPath("~/assets/logo.png");
 
             string result = "";
             foreach (var item in items)
             {
+
+
+                string TicketId = HttpUtility.UrlEncode(Traversehtml.Encrypt(item.TicketNo));
+                string ticketImageUrl = Server.MapPath($"~/Tickets/Ticekt_{item.TicketNo}.png");
+                string ticketScanUrl = $"{ConfigurationManager.AppSettings["BASE_URL"]}/ScanTicket.aspx?TicketId={TicketId}";
+                Traversehtml.GenerateQRCodeTicket(ticketScanUrl, ticketImageUrl);
+
                 result += $"<div style='width: 680px;height: 300px;font-family: sans-serif;background: #f8f5ee url(\"{backgroundUrl}\") bottom center no-repeat; " +
                 "border-radius: 1em;border-top: 0.25em solid #a57c35;border-bottom: 0.25em solid #766e64;box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); margin: 2.4em auto;'>";
                 result += "<div style='width: 70px; height: 80px; background: #ffffff; border-radius: 50%; float: left; margin-top: 110px; margin-left: -35px; box-shadow: inset -1px 0 #dfdfdf;'></div>";
@@ -920,7 +927,7 @@ namespace SAPTCO.BILL.Controllers
 
                 result += "<div style='padding: 0 3.5em;'>";
                 result += "<h1 style='margin-bottom: 0.2em; font-size: 2.2em; display: inline-block;'>SAPTCO bus lines</h1>";
-                result += "<img src='http://kentico.interactive.sa/Styles/img/logo.png' style='float: right; margin-top: 1em;' width='225px;' />";
+                result += $"<img src='{saptcoLogo}' style='float: right; margin-top: 1em;' width='210px;' />";
                 result += "</div>";
 
                 result += "<div style='padding: 1em 3.5em; height: 100px;'>";
@@ -949,8 +956,6 @@ namespace SAPTCO.BILL.Controllers
                 result += "<div style='display: 33%; float: left;'>";
                 result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>From</h5>";
                 result += $"<h5 style='margin-top: 0.25em; margin-bottom: 0.75em;'>{item.From}</h5>";
-                result += "<h5 style='color: #a57c35; margin-top: 0em; margin-bottom: 0; padding-bottom: 0;'>To</h5>";
-                result += $"<h5 style='margin-top: 0.25em;'>{item.To}</h5>";
                 result += "</div>";
 
 
@@ -966,19 +971,21 @@ namespace SAPTCO.BILL.Controllers
                 result += "</div></div>";
 
 
-                result += "<div style='width: 30%; float: left;'>";
+                result += "<div style='width: 30%; float: right;'>";
                 result += "<div style='display: 50%; float: left;'>";
                 result += "<h5 style='color: #a57c35; margin-top: 0.75em; margin-bottom: 0; padding-bottom: 0;'>Ticket number</h5>";
-                result += $"<h4 style='margin-top: 0.5em; margin-bottom: 0.5em;'>{item.TicketNo}</h4>";
-                result += $"<img style='display: block; margin-top: 0.25em;' src='{path}' width='90px;'  />";
+                result += $"<h4 style='margin-top: 0.5em; margin-bottom: 0.5em;'>{Traversehtml.MakeIntoSequence(Convert.ToInt32(item.TicketNo), 9, "SA")}</h4>";
+                result += $"<img style='display: block; margin-top: 0.25em;' src='{ticketImageUrl}' width='90px;'  />";
                 result += " </div> </div>";
 
+                result += "<div style='width: 70%; float: left;'>";
+                result += "<h5 style='color: #a57c35; margin-top: 0em; margin-bottom: 0; padding-bottom: 0;'>To</h5>";
+                result += $"<h5 style='margin-top: 0.25em;'>{item.To}</h5>";
+                result += "</div>";
+
                 result += "</div>";
                 result += "</div>";
 
-                string TicketId = HttpUtility.UrlEncode(Traversehtml.Encrypt(item.TicketNo));
-                string ticketUrl = $"{ConfigurationManager.AppSettings["BASE_URL"]}/ScanTicket.aspx?TicketId={TicketId}";
-                Traversehtml.GenerateQRCode(ticketUrl);
             }
 
 
