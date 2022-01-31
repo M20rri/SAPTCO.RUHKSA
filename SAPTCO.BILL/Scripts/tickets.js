@@ -19,18 +19,12 @@ const PREPARECHECKOUT = _ => {
             'Content-Type': 'application/json'
         }
     }).then(result => {
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('billDiv').style.display = 'block';
-        console.log(result.data);
         TBLBODY.innerHTML = '';
         DOWNLOADSPAN.innerHTML = '';
 
         const { TicketUrl, InvoiceUrl } = result.data;
 
-        for (let item of TicketUrl) {
-            TBLBODY.innerHTML += `${HTMLTICKET(item)}`;
-        };
-
+        TBLBODY.innerHTML += `${HTMLTICKET(TicketUrl)}`;
         DOWNLOADSPAN.innerHTML = `${HTMLINVOICE(InvoiceUrl)}`
 
     });
@@ -46,6 +40,10 @@ const HTMLTICKET = (row) => {
 };
 
 const HTMLINVOICE = (url) => {
+
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('billDiv').style.display = 'block';
+
     return `
             <a href="${url}" class="btn btn-link mt-2"><b>التحميل</b></button>
     `;

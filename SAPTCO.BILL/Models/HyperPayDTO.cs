@@ -20,7 +20,7 @@ namespace SAPTCO.BILL.Models
     {
         public DTOMerchand Merchand { get; set; }
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
         public int ServiceId { get; set; }
         public string FromPoint { get; set; }
         public string ToPoint { get; set; }
@@ -182,8 +182,8 @@ namespace SAPTCO.BILL.Models
         public string CreatedTime { get; set; }
         public double TotalBeforeVat { get; set; }
         public int VatPercentage { get; set; }
-        public double VatAmount { get; set; }
-        public double TotalIncludingVat { get; set; }
+        public double? VatAmount { get; set; }
+        public double? TotalIncludingVat { get; set; }
     }
 
     public class HyperPayTicket
@@ -196,13 +196,13 @@ namespace SAPTCO.BILL.Models
         public string TicketNo { get; set; }
 
         public int Quantity { get; set; }
-        public double UnitPrice { get; set; }
+        public double? UnitPrice { get; set; }
         public string CreatedAt { get; set; }
         public string CreatedTime { get; set; }
-        public double TotalBeforeVat { get; set; }
+        public double? TotalBeforeVat { get; set; }
         public int VatPercentage { get; set; }
-        public double VatAmount { get; set; }
-        public double TotalIncludingVat { get; set; }
+        public double? VatAmount { get; set; }
+        public double? TotalIncludingVat { get; set; }
     }
 
     public class DTOTickeUrls
@@ -213,7 +213,7 @@ namespace SAPTCO.BILL.Models
 
     public class DTODownloadDocs
     {
-        public List<DTOTickeUrls> TicketUrl { get; set; }
+        public DTOTickeUrls TicketUrl { get; set; }
         public string InvoiceUrl { get; set; }
     }
 }

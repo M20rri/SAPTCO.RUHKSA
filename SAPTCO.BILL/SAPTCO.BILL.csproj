@@ -163,6 +163,22 @@
     <Compile Include="DownloadTicket.aspx.designer.cs">
       <DependentUpon>DownloadTicket.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Bill.cs" />
+    <Compile Include="Entities\CheckoutLog.cs" />
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\HyperTicket.cs" />
+    <Compile Include="Entities\MerchandTransaction.cs" />
+    <Compile Include="Entities\Paymint.cs" />
+    <Compile Include="Entities\RuhKSAModelContext.cs" />
+    <Compile Include="Entities\Service.cs" />
+    <Compile Include="Entities\SubService.cs" />
+    <Compile Include="Entities\Terminal.cs" />
+    <Compile Include="Entities\Ticket.cs" />
+    <Compile Include="Entities\TicketPaymentPDF.cs" />
+    <Compile Include="Entities\TimeTerminal.cs" />
+    <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="Entities\Trip.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,12 +186,18 @@
     <Compile Include="Helper\Helpers.cs" />
     <Compile Include="Helper\HexadecimalEncoding.cs" />
     <Compile Include="Helper\IEnumerableExtensions.cs" />
+    <Compile Include="Migrations\202201311128489_initdatabase.cs" />
+    <Compile Include="Migrations\202201311128489_initdatabase.designer.cs">
+      <DependentUpon>202201311128489_initdatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CustomerVM.cs" />
     <Compile Include="Models\HyperPayDTO.cs" />
     <Compile Include="Models\PDFVM.cs" />
     <Compile Include="Models\ResponseMessageVM.cs" />
     <Compile Include="Models\SaptcoContext.cs" />
     <Compile Include="Models\ServiceVM.cs" />
+    <Compile Include="Models\SP_PRINTHYPERPAYTICKET_Result.cs" />
     <Compile Include="Models\TransVM.cs" />
     <Compile Include="Models\PaymintVM.cs" />
     <Compile Include="Models\TripVM.cs" />
@@ -250,6 +272,11 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SAPTCO_BILL_sa_saptco_services_NotificationWS</CachedSettingsPropName>
     </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202201311128489_initdatabase.resx">
+      <DependentUpon>202201311128489_initdatabase.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

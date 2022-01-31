@@ -1,6 +1,6 @@
-﻿using SAPTCO.BILL.Models;
+﻿using SAPTCO.BILL.Entities;
+using SAPTCO.BILL.Models;
 using System;
-using System.Linq;
 
 namespace SAPTCO.BILL.Helper
 {
@@ -10,28 +10,22 @@ namespace SAPTCO.BILL.Helper
         {
             string message = "";
 
-            using (SaptcoContext _db = new SaptcoContext())
+            using (RuhKSAEntities _db = new RuhKSAEntities())
             {
-                string query = $"EXECUTE SP_CHECKOUTLOG {model.CheckOutId},'{model.Status}','{model.RequestJson}','{model.ResponseJson}','{model.Action}'";
-                message = _db.Database.SqlQuery<string>(query).FirstOrDefault();
+                _db.CheckoutLogs.Add(new CheckoutLog
+                {
+                    CHECKOUTID = model.CheckOutId,
+                    STATUS = model.Status,
+                    REQUESTJSON = model.RequestJson,
+                    RESPONSEJSON= model.ResponseJson,
+                    ACTION = model.Action,
+                    CREATEDON = DateTime.Now
+                });
+                _db.SaveChanges();
+                message = "Success";
             }
 
             return message;
-        }
-
-        public static int CheckOutTransaction(DTOCheckOutSP model)
-        {
-            int result = 0;
-
-            using (SaptcoContext _db = new SaptcoContext())
-            {
-                string query = $"EXECUTE SP_CHECKOUT '{model.Status}',{model.Amount},'{model.Type}'";
-                var identity = _db.Database.SqlQuery<decimal>(query).FirstOrDefault();
-                result = Convert.ToInt32(identity);
-            }
-
-            return result;
-
         }
     }
 }

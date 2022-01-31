@@ -13,8 +13,7 @@ using System.Text;
 using System.Web;
 using SAPTCO.BILL.Helper;
 using RestSharp;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using SAPTCO.BILL.Entities;
 using System.Net;
 using SAPTCO.BILL.sa.saptco.services;
 
@@ -434,6 +433,8 @@ namespace SAPTCO.BILL.Controllers
         }
 
 
+
+        // convert payment to EF
         [HttpPost]
         public JsonResult CheckOut(DTOCheckOutPush model)
         {
@@ -447,11 +448,14 @@ namespace SAPTCO.BILL.Controllers
             {
 
                 #region Get Price
-                using (SaptcoContext _db = new SaptcoContext())
+                using (RuhKSAEntities _db = new RuhKSAEntities())
                 {
-                    string query = $"EXECUTE SP_Hotel 1";
-                    var _hotels = _db.Database.SqlQuery<ServiceVM>(query).ToList();
-                    _currentHotel = _hotels.FirstOrDefault(a => a.id == model.ServiceId);
+                    _currentHotel = _db.SubServices.Where(a => a.ServiceId == 1).Select(r => new ServiceVM
+                    {
+                        id = r.Id,
+                        cost = r.Cost.Value,
+                        name = r.Name,
+                    }).FirstOrDefault();
                 }
                 #endregion
 
@@ -463,17 +467,42 @@ namespace SAPTCO.BILL.Controllers
                 #region Apply [SP_CHECKOUT] Stored Procedure
                 {
 
-                    DTOCheckOutSP _checkount = new DTOCheckOutSP
+                    using (RuhKSAEntities _db = new RuhKSAEntities())
                     {
-                        Amount = merchand.Amount,
-                        Status = "Prepare CheckOut",
-                        Type = merchand.PaymentMethod
-                    };
+                        MerchandTransaction merchandTransactions = new MerchandTransaction
+                        {
+                            STATUS = "Prepare CheckOut",
+                            TYPE = merchand.PaymentMethod,
+                            AMOUNT = merchand.Amount,
+                            VATAMOUNT = merchand.Amount * .15,
+                            TOTALAMOUNT = (merchand.Amount * .15) + merchand.Amount,
+                            ARRIVALTIME = model.ArrivalTime,
+                            CREATEDON = DateTime.Now,
+                            CUSTOMERNAME = model.Merchand.GivenName,
+                            CUSTOMERPHONE = model.Merchand.Phone,
+                            PRICE = model.UnitPrice,
+                            FROMPOINT = model.FromPoint,
+                            QUANTITY = model.Quantity,
+                            TOPOINT = model.ToPoint,
+                            VATPERCENTAGE = 15
+                        };
 
-                    using (SaptcoContext _db = new SaptcoContext())
-                    {
-                        string query = $"EXECUTE SP_CHECKOUT '{_checkount.Status}',{_checkount.Amount},'{_checkount.Type}',{model.Quantity},{model.UnitPrice},'{model.Merchand.GivenName}','{model.Merchand.Phone}',N'{model.FromPoint}',N'{model.ToPoint}','{model.ArrivalTime}'";
-                        checkOut = _db.Database.SqlQuery<DTOCheckAmountRes>(query).FirstOrDefault();
+                        _db.MerchandTransactions.Add(merchandTransactions);
+                        _db.SaveChanges();
+                        checkOut.Id = merchandTransactions.ID;
+                        checkOut.Amount = merchandTransactions.TOTALAMOUNT;
+
+
+                        #region Add Tickets
+
+                        for (int i = 0; i < merchandTransactions.QUANTITY; i++)
+                        {
+                            _db.HyperTickets.Add(new HyperTicket { InvoiceId = checkOut.Id, CreatedAt = DateTime.Now, is_used = 0 });
+                            _db.SaveChanges();
+                        }
+
+                        #endregion
+
                     }
                 }
                 #endregion
@@ -503,17 +532,12 @@ namespace SAPTCO.BILL.Controllers
                 #region Apply [SP_CHECKOUT] Stored Procedure
                 {
 
-                    DTOCheckOutSP _checkount = new DTOCheckOutSP
+                    using (RuhKSAEntities _db = new RuhKSAEntities())
                     {
-                        Amount = merchand.Amount,
-                        Status = "Payment Form",
-                        Type = merchand.PaymentMethod
-                    };
-
-                    using (SaptcoContext _db = new SaptcoContext())
-                    {
-                        string query = $"EXECUTE SP_EDITCHECKOUT {checkOut.Id},'{_checkount.Status}'";
-                        checkOut.Id = _db.Database.SqlQuery<int>(query).FirstOrDefault();
+                        // get current MerchandTransaction
+                        var currentMerchandTransaction = _db.MerchandTransactions.FirstOrDefault(a => a.ID == checkOut.Id);
+                        currentMerchandTransaction.STATUS = "Payment Form";
+                        _db.SaveChanges();
                     }
                 }
                 #endregion
@@ -560,17 +584,13 @@ namespace SAPTCO.BILL.Controllers
                 IRestResponse response = client.Execute(request);
                 result = JsonConvert.DeserializeObject<DTOPaymentStatusInfo>(response.Content);
 
-                DTOCheckOutSP _checkount = new DTOCheckOutSP
-                {
-                    Amount = Convert.ToDouble(result.amount),
-                    Status = result.SAPTCOResult.code,
-                    Type = model.PaymentMethod
-                };
 
-                using (SaptcoContext _db = new SaptcoContext())
+                using (RuhKSAEntities _db = new RuhKSAEntities())
                 {
-                    string query = $"EXECUTE SP_EDITCHECKOUT {result.merchantTransactionId},'{_checkount.Status}'";
-                    int checkOutId = _db.Database.SqlQuery<int>(query).FirstOrDefault();
+                    // get current MerchandTransaction
+                    var currentMerchandTransaction = _db.MerchandTransactions.FirstOrDefault(a => a.ID == Convert.ToInt32(result.merchantTransactionId));
+                    currentMerchandTransaction.STATUS = result.SAPTCOResult.code;
+                    _db.SaveChanges();
                 }
 
 
@@ -592,18 +612,12 @@ namespace SAPTCO.BILL.Controllers
         public ActionResult HookNotofication(HookNotify model)
         {
 
-            DTOCheckOutSP _checkount = new DTOCheckOutSP
+            using (RuhKSAEntities _db = new RuhKSAEntities())
             {
-                Amount = Convert.ToDouble(model.Amount),
-                Status = "Hook Notify",
-                Type = model.PaymentMethod
-            };
-
-            using (SaptcoContext _db = new SaptcoContext())
-            {
-                string query = $"EXECUTE SP_EDITCHECKOUT {model.MerchantTransactionId},'{_checkount.Status}'";
-                int checkOutId = _db.Database.SqlQuery<int>(query).FirstOrDefault();
-
+                // get current MerchandTransaction
+                var currentMerchandTransaction = _db.MerchandTransactions.FirstOrDefault(a => a.ID == Convert.ToInt32(model.MerchantTransactionId));
+                currentMerchandTransaction.STATUS = "Hook Notify";
+                _db.SaveChanges();
             }
 
             #region Log
@@ -625,14 +639,34 @@ namespace SAPTCO.BILL.Controllers
             List<HyperPayTicket> hyperPayTickets = new List<HyperPayTicket>();
             List<string> tickets = new List<string>();
             int no_tickets = 0;
-            using (SaptcoContext _db = new SaptcoContext())
+            string customerPhone = "";
+            using (RuhKSAEntities _db = new RuhKSAEntities())
             {
                 try
                 {
                     #region Ticket Step
                     {
-                        string query = $"EXECUTE SP_PRINTHYPERPAYTICKET {id}";
-                        hyperPayTickets = _db.Database.SqlQuery<HyperPayTicket>(query).ToList();
+                        hyperPayTickets = (from MT in _db.MerchandTransactions
+                                                        join HT in _db.HyperTickets on MT.ID equals HT.InvoiceId
+                                                        where MT.ID == id
+                                                        select new HyperPayTicket
+                                                        {
+                                                            TicketNo = HT.Id.ToString(),
+                                                            Quantity = 1,
+                                                            UnitPrice = MT.PRICE.Value,
+                                                            CreatedAt = MT.CREATEDON.ToString(),
+                                                            CreatedTime = MT.CREATEDON.ToString(),
+                                                            VatPercentage = MT.VATPERCENTAGE,
+                                                            VatAmount = MT.PRICE * .15,
+                                                            TotalBeforeVat = MT.PRICE.Value,
+                                                            TotalIncludingVat = (MT.PRICE) + (MT.PRICE * .15),
+                                                            Customer = MT.CUSTOMERNAME,
+                                                            Phone = MT.CUSTOMERPHONE,
+                                                            From = MT.FROMPOINT,
+                                                            To = MT.TOPOINT,
+                                                            ArrivalTime = MT.ARRIVALTIME
+                                                        }).ToList();
+
                         no_tickets = hyperPayTickets.Count;
                         string trRows = DrawTicketDetails(hyperPayTickets);
 
@@ -681,26 +715,15 @@ namespace SAPTCO.BILL.Controllers
 
                         // save in database
 
-                        using (SqlConnection _cn = new SqlConnection(ConfigurationManager.ConnectionStrings["billConstr"].ToString()))
+                        var spHyperTickets = _db.HyperTickets.Where(a => a.InvoiceId == id).ToList();
+                        foreach (var item in spHyperTickets)
                         {
-                            using (SqlCommand _cmd = new SqlCommand("SP_PAYMMENT_TICKET", _cn))
-                            {
-                                _cmd.CommandType = CommandType.StoredProcedure;
-                                _cn.Open();
-                                _cmd.Parameters.Add("@INVID", SqlDbType.Int).Value = id;
-                                _cmd.Parameters.Add("@DOWNLOADURL", SqlDbType.NVarChar).Value = billResponse;
-                                _cmd.Parameters.Add("@TICKETID", SqlDbType.Int).Value = hyperPayTickets.FirstOrDefault().TicketNo;
-                                _cmd.Parameters.Add("@BILL", SqlDbType.VarBinary).Value = bytes;
-                                var rdr = _cmd.ExecuteReader();
-                                while (rdr.Read())
-                                {
-                                    response.code = Convert.ToInt32(rdr[0]);
-                                    response.message = rdr[1].ToString();
-                                }
-                                _cn.Close();
-                            }
+                            item.Bill = bytes;
+                            item.DownloadUrl = billResponse;
+                            _db.SaveChanges();
                         }
 
+                        response = new ResponseMessageVM { code = 1, message = "SUCCESS" };
                         #endregion
 
                     }
@@ -708,9 +731,21 @@ namespace SAPTCO.BILL.Controllers
 
                     #region Invoice Step
                     {
-                        string query = $"EXECUTE SP_PRINTHYPERPAYINVOICE {id}";
-                        hyperPayInvoice = _db.Database.SqlQuery<HyperPayInvoice>(query).FirstOrDefault();
-                        string customerPhone = "";
+                        hyperPayInvoice = (from MT in _db.MerchandTransactions
+                                           where MT.ID == id
+                                           select new HyperPayInvoice
+                                           {
+                                               InvoiceId = MT.ID,
+                                               Quantity = 1,
+                                               UnitPrice = MT.PRICE.Value,
+                                               CreatedAt = MT.CREATEDON.ToString(),
+                                               CreatedTime = MT.CREATEDON.ToString(),
+                                               VatPercentage = MT.VATPERCENTAGE,
+                                               VatAmount = MT.PRICE * .15,
+                                               TotalBeforeVat = MT.PRICE.Value,
+                                               TotalIncludingVat = (MT.PRICE) + (MT.PRICE * .15)
+                                           }).FirstOrDefault();
+
                         string trRows = DrawInvoiceDetails(hyperPayInvoice);
                         string trSecion = DrawInvoiceSection(id);
 
@@ -776,30 +811,19 @@ namespace SAPTCO.BILL.Controllers
 
 
                         string invoiceQueryParam = HttpUtility.UrlEncode(Traversehtml.Encrypt(id.ToString()));
-
                         billResponse = $"{ConfigurationManager.AppSettings["BASE_URL"]}/PaymentDownload.aspx?invId={invoiceQueryParam}";
 
-
-                        using (SqlConnection _cn = new SqlConnection(ConfigurationManager.ConnectionStrings["billConstr"].ToString()))
+                        _db.TicketPaymentPDFs.Add(new TicketPaymentPDF
                         {
-                            using (SqlCommand _cmd = new SqlCommand("SP_PAYMMENT_INVOICE", _cn))
-                            {
-                                _cmd.CommandType = CommandType.StoredProcedure;
-                                _cn.Open();
-                                _cmd.Parameters.Add("@INVID", SqlDbType.Int).Value = id;
-                                _cmd.Parameters.Add("@DOWNLOADURL", SqlDbType.NVarChar).Value = billResponse;
-                                _cmd.Parameters.Add("@BILL", SqlDbType.VarBinary).Value = bytes;
-                                var rdr = _cmd.ExecuteReader();
-                                while (rdr.Read())
-                                {
-                                    response.code = Convert.ToInt32(rdr[0]);
-                                    response.message = rdr[1].ToString();
-                                    customerPhone = rdr[2].ToString();
-                                }
-                                _cn.Close();
-                            }
-                        }
+                            InvoiceId = id,
+                            Bill = bytes,
+                            CreatedAt = DateTime.Now,
+                            is_used = 0,
+                            DownloadUrl = billResponse
+                        });
+                        _db.SaveChanges();
 
+                        response = new ResponseMessageVM { code = 1, message = "SUCCESS" };
 
                         #region Send SMS
                         {
@@ -828,34 +852,22 @@ namespace SAPTCO.BILL.Controllers
             }
         }
 
-
         [HttpGet]
         public JsonResult GenerateTicketTable(int id)
         {
-            List<DTOTickeUrls> ticketsUrls = new List<DTOTickeUrls>();
-
-            SqlConnection _cn = new SqlConnection(ConfigurationManager.ConnectionStrings["billConstr"].ToString());
-            string query = $"EXECUTE SP_DOWNLOADTICKET {id}";
-
             DTODownloadDocs docs = new DTODownloadDocs();
-
-            SqlCommand cmd = new SqlCommand(query, _cn);
-            SqlDataAdapter da = new SqlDataAdapter();
-            DataSet ds = new DataSet();
-            da = new SqlDataAdapter(cmd);
-            da.Fill(ds);
-            _cn.Close();
-
-
-            docs = ds.Tables[1].AsEnumerable().Select(QdataRow => new DTODownloadDocs
+            using (RuhKSAEntities _db = new RuhKSAEntities())
             {
-                InvoiceUrl = QdataRow.Field<string>("DownloadUrl"),
-                TicketUrl = ds.Tables[0].AsEnumerable().Select(AdataRow => new DTOTickeUrls
+                // tickets
+                docs.TicketUrl = _db.HyperTickets.Where(a => a.InvoiceId == id).Select(r => new DTOTickeUrls
                 {
-                    Id = AdataRow.Field<int>("Id"),
-                    Url = AdataRow.Field<string>("Url")
-                }).ToList()
-            }).FirstOrDefault();
+                    Id = r.Id,
+                    Url = r.DownloadUrl
+                }).FirstOrDefault();
+
+                // invocie
+                docs.InvoiceUrl = _db.TicketPaymentPDFs.FirstOrDefault(a => a.InvoiceId == id).DownloadUrl;
+            }
 
             return Json(docs, JsonRequestBehavior.AllowGet);
         }

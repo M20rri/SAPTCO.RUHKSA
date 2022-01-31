@@ -147,7 +147,7 @@ namespace SAPTCO.BILL.Models
         }
 
 
-        public static void GenerateQRCodeTicket(string ticketScanUrl , string ticketImageUrl)
+        public static void GenerateQRCodeTicket(string ticketScanUrl, string ticketImageUrl)
         {
             var writer = new QRCodeWriter();
             var resultBit = writer.encode(ticketScanUrl, BarcodeFormat.QR_CODE, 200, 200);
@@ -186,7 +186,7 @@ namespace SAPTCO.BILL.Models
 
             body = body.Replace("{billTitleAr}", model.TitleAr);
             body = body.Replace("{billTitleEn}", model.TitleEn);
-            body = body.Replace("{billNumber}", model.InvoiceId.ToString());
+            body = body.Replace("{billNumber}", MakeIntoSequence(Convert.ToInt32(model.InvoiceId), 10, "SAP"));
             body = body.Replace("{billCreateAt}", model.CreatedAt);
             body = body.Replace("{billCreateTime}", model.CreatedTime);
             body = body.Replace("{tbody}", trData);
