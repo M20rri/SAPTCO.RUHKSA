@@ -187,8 +187,8 @@ namespace SAPTCO.BILL.Models
             body = body.Replace("{billTitleAr}", model.TitleAr);
             body = body.Replace("{billTitleEn}", model.TitleEn);
             body = body.Replace("{billNumber}", MakeIntoSequence(Convert.ToInt32(model.InvoiceId), 10, "SAP"));
-            body = body.Replace("{billCreateAt}", model.CreatedAt);
-            body = body.Replace("{billCreateTime}", model.CreatedTime);
+            body = body.Replace("{billCreateAt}", Convert.ToDateTime(model.CreatedAt).ToString("d"));
+            body = body.Replace("{billCreateTime}", Convert.ToDateTime(model.CreatedTime).ToString("t"));
             body = body.Replace("{tbody}", trData);
             body = body.Replace("{tSection}", trSecion);
             body = body.Replace("{withoutVatTotal}", model.TotalBeforeVat.ToString());

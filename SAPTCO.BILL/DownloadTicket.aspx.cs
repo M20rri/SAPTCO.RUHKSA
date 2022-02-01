@@ -1,4 +1,5 @@
-﻿using SAPTCO.BILL.Models;
+﻿using SAPTCO.BILL.Entities;
+using SAPTCO.BILL.Models;
 using System;
 using System.Linq;
 using System.Web;
@@ -22,21 +23,19 @@ namespace SAPTCO.BILL
                         {
                             byte[] bytes;
 
-                            using (SaptcoContext _db = new SaptcoContext())
+                            using (RuhKSAEntities _db = new RuhKSAEntities())
                             {
-                                string qry = $"EXECUTE SP_PRINTTICKET {invId}";
-                                bytes = _db.Database.SqlQuery<byte[]>(qry).FirstOrDefault();
+                                bytes = _db.HyperTickets.FirstOrDefault(a => a.Id == invId).Bill;
+                                Response.Clear();
+                                Response.Buffer = true;
+                                Response.Charset = "";
+                                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                                Response.ContentType = "application/pdf";
+                                Response.AppendHeader("Content-Disposition", $"attachment; filename={invId}.pdf");
+                                Response.BinaryWrite(bytes);
+                                Response.Flush();
+                                Response.End();
                             }
-
-                            Response.Clear();
-                            Response.Buffer = true;
-                            Response.Charset = "";
-                            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                            Response.ContentType = "application/pdf";
-                            Response.AppendHeader("Content-Disposition", $"attachment; filename={invId}.pdf");
-                            Response.BinaryWrite(bytes);
-                            Response.Flush();
-                            Response.End();
                         }
                     }
                 }

@@ -1,4 +1,5 @@
-﻿using SAPTCO.BILL.Models;
+﻿using SAPTCO.BILL.Entities;
+using SAPTCO.BILL.Models;
 using System;
 using System.Linq;
 using System.Web;
@@ -17,19 +18,28 @@ namespace SAPTCO.BILL
                     if (Request.QueryString["TicketId"] != null)
                     {
                         int ticketId = Convert.ToInt32(Traversehtml.Decrypt(HttpUtility.UrlDecode(Request.QueryString["TicketId"])));
-
+                        string message = "";
                         if (ticketId > 0)
                         {
-                            using (SaptcoContext _db = new SaptcoContext())
+                            using (RuhKSAEntities _db = new RuhKSAEntities())
                             {
-                                string ticketQueryUsed = $"EXECUTE SP_TICKETUSED {ticketId}";
-                                string message = _db.Database.SqlQuery<string>(ticketQueryUsed).FirstOrDefault();
+                                var hyperTicket = _db.HyperTickets.FirstOrDefault(a => a.Id == ticketId);
+                                if (hyperTicket.is_used == 0)
+                                {
+                                    hyperTicket.is_used = 1;
+                                    _db.SaveChanges();
+                                    message = "تم استخدام التذكره بنجاح";
+                                }
+                                else
+                                {
+                                    message = "لا يمكن استخدام التذكره تم استخدمها  من قبل";
+                                }
                                 Response.Write($"<h1>{message}</h1>");
                             }
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Response.Write("<h1>Invalid Invoice</h1>");
                 }

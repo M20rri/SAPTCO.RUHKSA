@@ -647,25 +647,25 @@ namespace SAPTCO.BILL.Controllers
                     #region Ticket Step
                     {
                         hyperPayTickets = (from MT in _db.MerchandTransactions
-                                                        join HT in _db.HyperTickets on MT.ID equals HT.InvoiceId
-                                                        where MT.ID == id
-                                                        select new HyperPayTicket
-                                                        {
-                                                            TicketNo = HT.Id.ToString(),
-                                                            Quantity = 1,
-                                                            UnitPrice = MT.PRICE.Value,
-                                                            CreatedAt = MT.CREATEDON.ToString(),
-                                                            CreatedTime = MT.CREATEDON.ToString(),
-                                                            VatPercentage = MT.VATPERCENTAGE,
-                                                            VatAmount = MT.PRICE * .15,
-                                                            TotalBeforeVat = MT.PRICE.Value,
-                                                            TotalIncludingVat = (MT.PRICE) + (MT.PRICE * .15),
-                                                            Customer = MT.CUSTOMERNAME,
-                                                            Phone = MT.CUSTOMERPHONE,
-                                                            From = MT.FROMPOINT,
-                                                            To = MT.TOPOINT,
-                                                            ArrivalTime = MT.ARRIVALTIME
-                                                        }).ToList();
+                                           join HT in _db.HyperTickets on MT.ID equals HT.InvoiceId
+                                           where MT.ID == id
+                                           select new HyperPayTicket
+                                           {
+                                               TicketNo = HT.Id.ToString(),
+                                               Quantity = 1,
+                                               UnitPrice = MT.PRICE.Value,
+                                               CreatedAt = MT.CREATEDON.ToString(),
+                                               CreatedTime = MT.CREATEDON.ToString(),
+                                               VatPercentage = MT.VATPERCENTAGE,
+                                               VatAmount = MT.PRICE * .15,
+                                               TotalBeforeVat = MT.PRICE.Value,
+                                               TotalIncludingVat = (MT.PRICE) + (MT.PRICE * .15),
+                                               Customer = MT.CUSTOMERNAME,
+                                               Phone = MT.CUSTOMERPHONE,
+                                               From = MT.FROMPOINT,
+                                               To = MT.TOPOINT,
+                                               ArrivalTime = MT.ARRIVALTIME
+                                           }).ToList();
 
                         no_tickets = hyperPayTickets.Count;
                         string trRows = DrawTicketDetails(hyperPayTickets);
@@ -877,7 +877,7 @@ namespace SAPTCO.BILL.Controllers
         {
             return $"<tr>" +
                 $"<td style='width: 33%; text-align: right; font-size: 1.1em; font-weight: bold;'>رقم الفاتورة</td>" +
-                $"<td style='width: 33%; text-align: center;'>{invoiceNumber}</td>" +
+                $"<td style='width: 33%; text-align: center;'>{Traversehtml.MakeIntoSequence(invoiceNumber, 10, "SAP")}</td>" +
                 $"<td style='width: 33%; text-align: left; font-weight: bold;'>Invoice No</td>" +
                 $"</tr>";
         }
